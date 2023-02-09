@@ -1,5 +1,5 @@
 # GTKTotem
-![OS](https://img.shields.io/badge/OS-windows-blue?style=for-the-badge)
+![OS](https://img.shields.io/badge/OS-Windows,Linux,MacOs-cyan?style=for-the-badge)
 ![Language](https://img.shields.io/badge/language-c++-blueviolet?style=for-the-badge)
 ![License](https://img.shields.io/github/license/FR1G0/GTKTotem?style=for-the-badge)
 ![library](https://img.shields.io/badge/dependencies-wxWidgets-orange?style=for-the-badge)
