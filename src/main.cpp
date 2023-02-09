@@ -1,26 +1,25 @@
 #include <wx/wx.h>
+#include <string.h>
 #include <wx/wxprec.h>
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
 #include <wx/string.h>
-#include <wx/srchctrl.h>
+#include <wx/stattext.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
+#include <wx/srchctrl.h>
 #include <wx/treectrl.h>
+#include <wx/filepicker.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
-#include <wx/filepicker.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
-#include <wx/statbmp.h>
-#include <wx/stattext.h>
+#include <wx/notebook.h>
 #include <wx/splitter.h>
-#include <wx/menu.h>
 #include <wx/frame.h>
-
 
 class MyApp: public wxApp
 {
@@ -28,47 +27,43 @@ public:
     virtual bool OnInit();
 };
 
-class FormFrame : public wxFrame
+class MainFrame : public wxFrame
 {
 	private:
 
 	protected:
 		wxSplitterWindow* MainSplitter;
-		wxPanel* TreeView;
-		wxSearchCtrl* searchbar;
-		wxPanel* treepannel;
+		wxPanel* TreeViewPanel;
+		wxStaticText* m_staticText1;
+		wxSearchCtrl* TreeSearchbar;
 		wxTreeCtrl* TreeView;
-		wxFilePickerCtrl* filepicker;
+		wxFilePickerCtrl* TreeViewFilePicker;
 		wxPanel* InfoPanel;
-		wxSplitterWindow* DisplaySplitter;
-		wxPanel* DisplayPannel;
-		wxStaticBitmap* image;
-		wxPanel* InfoPanel;
-		wxStaticText* Title;
-		wxStaticText* Information;
-		wxMenuBar* MenuBar;
-		wxMenu* FileExplorer;
-		wxMenu* Impostazioni;
-		wxMenu* ProgramMenu;
-		wxMenu* InserisciMenu;
-		wxMenu* Help;
+		wxSplitterWindow* InfoPanelSplitter;
+		wxPanel* UpperInfoPanel;
+		wxPanel* LowerInfoPanel;
+		wxNotebook* NoteBook;
+		wxPanel* m_panel_general;
+		wxPanel* m_panel_heiarchy;
+		wxPanel* m_panel_Habitat;
+		wxPanel* m_panel_other;
 
 	public:
 
-		FormFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Totem UI - Joseph Frigo & Rampazzo Enrico"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 854,480 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		MainFrame( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("TotemUI"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1280,720 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
-		~FormFrame();
+		~MainFrame();
 
 		void MainSplitterOnIdle( wxIdleEvent& )
 		{
-			MainSplitter->SetSashPosition( 247 );
-			MainSplitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( FormFrame::MainSplitterOnIdle ), NULL, this );
+			MainSplitter->SetSashPosition( 421 );
+			MainSplitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( MainFrame::MainSplitterOnIdle ), NULL, this );
 		}
 
-		void DisplaySplitterOnIdle( wxIdleEvent& )
+		void InfoPanelSplitterOnIdle( wxIdleEvent& )
 		{
-			DisplaySplitter->SetSashPosition( 395 );
-			DisplaySplitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( FormFrame::DisplaySplitterOnIdle ), NULL, this );
+			InfoPanelSplitter->SetSashPosition( 0 );
+			InfoPanelSplitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( MainFrame::InfoPanelSplitterOnIdle ), NULL, this );
 		}
 
 };
@@ -76,166 +71,144 @@ class FormFrame : public wxFrame
 wxIMPLEMENT_APP(MyApp);
 bool MyApp::OnInit()
 {
-    Mainpage *frame = new Mainpage(NULL);
+    MainFrame *frame = new MainFrame(NULL);
     frame->Show( true );
     return true;
 }
 
-
-FormFrame::FormFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
 
-	wxBoxSizer* FormSizer;
-	FormSizer = new wxBoxSizer( wxVERTICAL );
+	wxBoxSizer* MainFrameSizer;
+	MainFrameSizer = new wxBoxSizer( wxVERTICAL );
 
-	MainSplitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxSP_3D|wxSP_LIVE_UPDATE );
-	MainSplitter->Connect( wxEVT_IDLE, wxIdleEventHandler( FormFrame::MainSplitterOnIdle ), NULL, this );
+	MainSplitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
+	MainSplitter->Connect( wxEVT_IDLE, wxIdleEventHandler( MainFrame::MainSplitterOnIdle ), NULL, this );
 
-	MainSplitter->SetBackgroundColour( wxColour( 49, 255, 0 ) );
+	TreeViewPanel = new wxPanel( MainSplitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* TreeViewSizer;
+	TreeViewSizer = new wxBoxSizer( wxVERTICAL );
 
-	TreeView = new wxPanel( MainSplitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	TreeView->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+	m_staticText1 = new wxStaticText( TreeViewPanel, wxID_ANY, wxT("La lista di animali"), wxDefaultPosition, wxDefaultSize, 0 );
+	m_staticText1->Wrap( -1 );
+	TreeViewSizer->Add( m_staticText1, 0, wxALL, 5 );
 
-	wxBoxSizer* SidebarSizer;
-	SidebarSizer = new wxBoxSizer( wxVERTICAL );
-
-	searchbar = new wxSearchCtrl( TreeView, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	TreeSearchbar = new wxSearchCtrl( TreeViewPanel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	#ifndef __WXMAC__
-	searchbar->ShowSearchButton( true );
+	TreeSearchbar->ShowSearchButton( true );
 	#endif
-	searchbar->ShowCancelButton( false );
-	SidebarSizer->Add( searchbar, 0, wxALL|wxEXPAND, 5 );
+	TreeSearchbar->ShowCancelButton( false );
+	TreeViewSizer->Add( TreeSearchbar, 0, wxALL|wxEXPAND, 5 );
 
-	treepannel = new wxPanel( TreeView, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	treepannel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+	TreeView = new wxTreeCtrl( TreeViewPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE );
+	
+	wxTreeItemId rootId = TreeView->AddRoot("Tutti Animali");
+	wxTreeItemId child1Id = TreeView->AppendItem(rootId, "Vertebrati");
+	wxTreeItemId child1Id_mammiferi = TreeView->AppendItem(child1Id,"Mammiferi");
+	for(size_t i =0 ;i<100;i++)
+	{
+		std::string set = "Mammifero - "+std::to_string(i);
+		TreeView->AppendItem(child1Id_mammiferi,set.c_str());
+	}
+	TreeView->AppendItem(child1Id,"Uccelli");
+	TreeView->AppendItem(child1Id,"Pesci");
+	TreeView->AppendItem(child1Id,"Anfibi");
 
-	wxBoxSizer* bSizer16;
-	bSizer16 = new wxBoxSizer( wxHORIZONTAL );
-
-	TreeView = new wxTreeCtrl( treepannel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxHSCROLL );
-	bSizer16->Add( TreeView, 1, wxALL|wxEXPAND, 5 );
-
-
-	treepannel->SetSizer( bSizer16 );
-	treepannel->Layout();
-	bSizer16->Fit( treepannel );
-	SidebarSizer->Add( treepannel, 1, wxEXPAND | wxALL, 5 );
-
-	filepicker = new wxFilePickerCtrl( TreeView, wxID_ANY, wxEmptyString, wxT("Seleziona un file .csv "), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE );
-	SidebarSizer->Add( filepicker, 0, wxALL|wxEXPAND, 5 );
+	wxTreeItemId child2Id = TreeView->AppendItem(rootId, "Invertebrati");
+	TreeView->AppendItem(child2Id,"Molluschi");
+	TreeView->AppendItem(child2Id,"Artropodi");
+	TreeView->AppendItem(child2Id,"Echinodermi");
+    
 
 
-	TreeView->SetSizer( SidebarSizer );
-	TreeView->Layout();
-	SidebarSizer->Fit( TreeView );
+	TreeViewSizer->Add( TreeView, 1, wxALL|wxEXPAND, 5 );
+
+	TreeViewFilePicker = new wxFilePickerCtrl( TreeViewPanel, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE );
+	TreeViewSizer->Add( TreeViewFilePicker, 0, wxALL|wxEXPAND, 5 );
+
+
+	TreeViewPanel->SetSizer( TreeViewSizer );
+	TreeViewPanel->Layout();
+	TreeViewSizer->Fit( TreeViewPanel );
 	InfoPanel = new wxPanel( MainSplitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	InfoPanel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+	wxBoxSizer* InfoPanelSizer;
+	InfoPanelSizer = new wxBoxSizer( wxVERTICAL );
 
-	wxBoxSizer* InfoSizer;
-	InfoSizer = new wxBoxSizer( wxVERTICAL );
+	InfoPanelSplitter = new wxSplitterWindow( InfoPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
+	InfoPanelSplitter->Connect( wxEVT_IDLE, wxIdleEventHandler( MainFrame::InfoPanelSplitterOnIdle ), NULL, this );
 
-	DisplaySplitter = new wxSplitterWindow( InfoPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
-	DisplaySplitter->Connect( wxEVT_IDLE, wxIdleEventHandler( FormFrame::DisplaySplitterOnIdle ), NULL, this );
-
-	DisplayPannel = new wxPanel( DisplaySplitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* DisplaySizer;
-	DisplaySizer = new wxBoxSizer( wxVERTICAL );
-
-	image = new wxStaticBitmap( DisplayPannel, wxID_ANY, wxBitmap( wxT(""), wxBITMAP_TYPE_ANY ), wxDefaultPosition, wxDefaultSize, 0 );
-	DisplaySizer->Add( image, 0, wxALL|wxEXPAND, 5 );
+	UpperInfoPanel = new wxPanel( InfoPanelSplitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* UpperInfoPanelSizer;
+	UpperInfoPanelSizer = new wxBoxSizer( wxVERTICAL );
 
 
-	DisplayPannel->SetSizer( DisplaySizer );
-	DisplayPannel->Layout();
-	DisplaySizer->Fit( DisplayPannel );
-	InfoPanel = new wxPanel( DisplaySplitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	wxBoxSizer* InfoSizer;
-	InfoSizer = new wxBoxSizer( wxVERTICAL );
+	UpperInfoPanel->SetSizer( UpperInfoPanelSizer );
+	UpperInfoPanel->Layout();
+	UpperInfoPanelSizer->Fit( UpperInfoPanel );
+	LowerInfoPanel = new wxPanel( InfoPanelSplitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* LowerInfoPanelSizer;
+	LowerInfoPanelSizer = new wxBoxSizer( wxVERTICAL );
 
-	Title = new wxStaticText( InfoPanel, wxID_ANY, wxT("NOME"), wxDefaultPosition, wxDefaultSize, 0 );
-	Title->Wrap( -1 );
-	InfoSizer->Add( Title, 0, wxALL, 5 );
-
-	Information = new wxStaticText( InfoPanel, wxID_ANY, wxT("Altro"), wxDefaultPosition, wxDefaultSize, 0 );
-	Information->SetLabelMarkup( wxT("Altro") );
-	Information->Wrap( -1 );
-	InfoSizer->Add( Information, 0, wxALL, 5 );
+	NoteBook = new wxNotebook( LowerInfoPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	m_panel_general = new wxPanel( NoteBook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* m_panel_general_sizer;
+	m_panel_general_sizer = new wxBoxSizer( wxVERTICAL );
 
 
-	InfoPanel->SetSizer( InfoSizer );
+	m_panel_general->SetSizer( m_panel_general_sizer );
+	m_panel_general->Layout();
+	m_panel_general_sizer->Fit( m_panel_general );
+	NoteBook->AddPage( m_panel_general, wxT("Informazioni Generali"), true );
+	m_panel_heiarchy = new wxPanel( NoteBook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* m_panel_heiarchy_sizer;
+	m_panel_heiarchy_sizer = new wxBoxSizer( wxVERTICAL );
+
+
+	m_panel_heiarchy->SetSizer( m_panel_heiarchy_sizer );
+	m_panel_heiarchy->Layout();
+	m_panel_heiarchy_sizer->Fit( m_panel_heiarchy );
+	NoteBook->AddPage( m_panel_heiarchy, wxT("Gerarchia"), false );
+	m_panel_Habitat = new wxPanel( NoteBook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* m_panel_Habitat_sizer;
+	m_panel_Habitat_sizer = new wxBoxSizer( wxVERTICAL );
+
+
+	m_panel_Habitat->SetSizer( m_panel_Habitat_sizer );
+	m_panel_Habitat->Layout();
+	m_panel_Habitat_sizer->Fit( m_panel_Habitat );
+	NoteBook->AddPage( m_panel_Habitat, wxT("Habitat"), false );
+	m_panel_other = new wxPanel( NoteBook, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* m_panel_other_sizer;
+	m_panel_other_sizer = new wxBoxSizer( wxVERTICAL );
+
+
+	m_panel_other->SetSizer( m_panel_other_sizer );
+	m_panel_other->Layout();
+	m_panel_other_sizer->Fit( m_panel_other );
+	NoteBook->AddPage( m_panel_other, wxT("Altro"), false );
+
+	LowerInfoPanelSizer->Add( NoteBook, 1, wxEXPAND | wxALL, 5 );
+
+
+	LowerInfoPanel->SetSizer( LowerInfoPanelSizer );
+	LowerInfoPanel->Layout();
+	LowerInfoPanelSizer->Fit( LowerInfoPanel );
+	InfoPanelSplitter->SplitHorizontally( UpperInfoPanel, LowerInfoPanel, 0 );
+	InfoPanelSizer->Add( InfoPanelSplitter, 1, wxEXPAND, 5 );
+
+
+	InfoPanel->SetSizer( InfoPanelSizer );
 	InfoPanel->Layout();
-	InfoSizer->Fit( InfoPanel );
-	DisplaySplitter->SplitHorizontally( DisplayPannel, InfoPanel, 395 );
-	InfoSizer->Add( DisplaySplitter, 1, wxEXPAND, 5 );
+	InfoPanelSizer->Fit( InfoPanel );
+	MainSplitter->SplitVertically( TreeViewPanel, InfoPanel, 421 );
+	MainFrameSizer->Add( MainSplitter, 1, wxEXPAND, 5 );
 
 
-	InfoPanel->SetSizer( InfoSizer );
-	InfoPanel->Layout();
-	InfoSizer->Fit( InfoPanel );
-	MainSplitter->SplitVertically( TreeView, InfoPanel, 247 );
-	FormSizer->Add( MainSplitter, 1, wxEXPAND, 5 );
-
-
-	this->SetSizer( FormSizer );
+	this->SetSizer( MainFrameSizer );
 	this->Layout();
-	MenuBar = new wxMenuBar( 0 );
-	FileExplorer = new wxMenu();
-	wxMenuItem* caricafile;
-	caricafile = new wxMenuItem( FileExplorer, wxID_ANY, wxString( wxT("Carica File") ) , wxEmptyString, wxITEM_NORMAL );
-	FileExplorer->Append( caricafile );
-
-	MenuBar->Append( FileExplorer, wxT("File") );
-
-	Impostazioni = new wxMenu();
-	wxMenuItem* Impostazione;
-	Impostazione = new wxMenuItem( Impostazioni, wxID_ANY, wxString( wxT("Da Fare") ) , wxEmptyString, wxITEM_NORMAL );
-	Impostazioni->Append( Impostazione );
-
-	MenuBar->Append( Impostazioni, wxT("Impostazioni") );
-
-	ProgramMenu = new wxMenu();
-	wxMenuItem* TerminateButton;
-	TerminateButton = new wxMenuItem( ProgramMenu, wxID_ANY, wxString( wxT("Termina") ) , wxEmptyString, wxITEM_NORMAL );
-	ProgramMenu->Append( TerminateButton );
-
-	wxMenuItem* RefreshMenu;
-	RefreshMenu = new wxMenuItem( ProgramMenu, wxID_ANY, wxString( wxT("Aggiorna") ) , wxEmptyString, wxITEM_NORMAL );
-	ProgramMenu->Append( RefreshMenu );
-
-	ProgramMenu->AppendSeparator();
-
-	InserisciMenu = new wxMenu();
-	wxMenuItem* InserisciMenuItem = new wxMenuItem( ProgramMenu, wxID_ANY, wxT("Animali"), wxEmptyString, wxITEM_NORMAL, InserisciMenu );
-	wxMenuItem* animaliinsertmenu;
-	animaliinsertmenu = new wxMenuItem( InserisciMenu, wxID_ANY, wxString( wxT("Inserisci") ) , wxEmptyString, wxITEM_NORMAL );
-	InserisciMenu->Append( animaliinsertmenu );
-
-	wxMenuItem* eliminamenu;
-	eliminamenu = new wxMenuItem( InserisciMenu, wxID_ANY, wxString( wxT("Elimina") ) , wxEmptyString, wxITEM_NORMAL );
-	InserisciMenu->Append( eliminamenu );
-
-	wxMenuItem* modificamenu;
-	modificamenu = new wxMenuItem( InserisciMenu, wxID_ANY, wxString( wxT("Modifica") ) , wxEmptyString, wxITEM_NORMAL );
-	InserisciMenu->Append( modificamenu );
-
-	ProgramMenu->Append( InserisciMenuItem );
-
-	ProgramMenu->AppendSeparator();
-
-	wxMenuItem* ExitMenu;
-	ExitMenu = new wxMenuItem( ProgramMenu, wxID_ANY, wxString( wxT("Chiudi") ) , wxEmptyString, wxITEM_NORMAL );
-	ProgramMenu->Append( ExitMenu );
-
-	MenuBar->Append( ProgramMenu, wxT("Programma") );
-
-	Help = new wxMenu();
-	MenuBar->Append( Help, wxT("Aiuto") );
-
-	this->SetMenuBar( MenuBar );
-
 
 	this->Centre( wxBOTH );
 }
 
-FormFrame::~FormFrame() {}
+MainFrame::~MainFrame() {}
