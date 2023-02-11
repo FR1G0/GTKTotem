@@ -20,6 +20,7 @@
 #include <wx/notebook.h>
 #include <wx/splitter.h>
 #include <wx/frame.h>
+#include "../libs/myapp.h"
 
 class MyApp: public wxApp
 {
@@ -103,24 +104,8 @@ MainFrame::MainFrame( wxWindow* parent, wxWindowID id, const wxString& title, co
 
 	TreeView = new wxTreeCtrl( TreeViewPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE );
 	
-	wxTreeItemId rootId = TreeView->AddRoot("Tutti Animali");
-	wxTreeItemId child1Id = TreeView->AppendItem(rootId, "Vertebrati");
-	wxTreeItemId child1Id_mammiferi = TreeView->AppendItem(child1Id,"Mammiferi");
-	for(size_t i =0 ;i<100;i++)
-	{
-		std::string set = "Mammifero - "+std::to_string(i);
-		TreeView->AppendItem(child1Id_mammiferi,set.c_str());
-	}
-	TreeView->AppendItem(child1Id,"Uccelli");
-	TreeView->AppendItem(child1Id,"Pesci");
-	TreeView->AppendItem(child1Id,"Anfibi");
-
-	wxTreeItemId child2Id = TreeView->AppendItem(rootId, "Invertebrati");
-	TreeView->AppendItem(child2Id,"Molluschi");
-	TreeView->AppendItem(child2Id,"Artropodi");
-	TreeView->AppendItem(child2Id,"Echinodermi");
-    
-
+	TotemApplication::generateTree(TreeView,new TotemApplication::DataHandler);
+	
 
 	TreeViewSizer->Add( TreeView, 1, wxALL|wxEXPAND, 5 );
 

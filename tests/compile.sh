@@ -1,1 +1,2 @@
-g++ main.cpp -o main.o && ./main.o 
+# shell compile command options for debian
+g++ src/main.cpp -o tests/compiled/main.o `wx-config --cxxflags` `wx-config --libs --gl-libs` -v && echo [TOTEMAPP] -- Compiled __main.cpp__ Executing [!] && ./tests/compiled/main.o && echo [TOTEMAPP] -- Closing ... and deleting && rm tests/compiled/main.o
