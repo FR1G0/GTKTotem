@@ -9,27 +9,35 @@
 ![Issues](https://img.shields.io/bitbucket/issues/FR1G0/GTKTotem?color=yellow)
 ![Lines](https://img.shields.io/tokei/lines/github/FR1G0/GTKTotem)
 ![Size](https://img.shields.io/github/repo-size/FR1G0/GTKTotem)
-### **Joseph Frigo & Enrico Rampazzo**
+# **Joseph Frigo & Enrico Rampazzo**
 
 Progetto **Totem per Zoo** C++ @ 2023
 - Prevede l'utilizzo della libreria open-source [wxwidgets]([https://www.gtk.org/](https://www.wxwidgets.org/))
 - L'ideale è creare un progrmama [cross-platform](https://en.wikipedia.org/wiki/Cross-platform_software) (ovvero compilabile in qualsiasi sistema operativo)
 - Scritto in C++ utilizzando le classi (Animale->Vertebrati->Mammiferi ecc..)
-- Utilizzando una libreria che riesce a parsare file .json, si potrebbe utilizzare il [json parser](https://github.com/nlohmann/json)
 
-Git Clone
+
+Clone repository
 ```shell
 git clone https://github.com/FR1G0/TotemUI
 ```
+# wxWidgets Setup
+### Windows 
+bisogna scaricare il source file di wxwdigets e buildare i binaries (bin) e le include per l'ambiente di sviluppo desiderato.
 
-## Il file data.json
-Il file data.json sarà il "magazzino" per gli animali dello zoo, questo magazzino è modificale dal terminale (back-end)
-```json
-{
-  "nome": "Tigre",
-  "vertebrato" : true,
-  "categoria": "Mammiferi",
-  "descrizione" : "tigre.txt",
-  "età": 15
-}
+- Una volta fatto bisogna linkare le binaries (/bin) & i file .h o .hpp (/include) al compilatore dell' IDE
+
+### Linux / Debian or Unix
+Per Linux bisogna scaricare il source file di wxwidgets 
+- E seguire le istruzioni di questo sito : [Installing wxWidgets on Linux](https://wiki.wxwidgets.org/Compiling_and_getting_started)
+
+# Compilazione
+### Windows
+Basta cliccare il tasto build o debug sul IDE, se il setup è andato a buon fine allora non si dovrebbero avere problemi.
+
+### Linux 
+Per linux bisogna inserire anche dei parametri speciali nel compilatore:
+```shell
+g++ main.cpp -o main.o `wx-config --cxxflags` `wx-config --libs --gl-libs` -v
 ```
+
