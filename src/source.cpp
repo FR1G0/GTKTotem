@@ -31,13 +31,17 @@ class TotemUI : public TotemAPP
 	//nuovo file caricato 
 	void newfileLoaded( wxFileDirPickerEvent& event ) 
 	{
-		setImage(wxConverter::wxString_to_string(event.GetPath()));
+		this->wxTree_Animali->DeleteAllItems();
+		TotemApplication::TotemData->setup(wxConverter::wxString_to_string(event.GetPath()));
+		TotemApplication::generateTree(this->wxTree_Animali,TotemApplication::TotemData);
 	}
 	virtual void toggleAnimale( wxTreeEvent& event ) 
 	{
+		//changes the title of the 
 		this->wxText_Titolo->SetLabel(
-			wxConverter::string_to_wxString(TotemApplication::TotemData->treeMap[event.GetItem()])
+			wxConverter::string_to_wxString(TotemApplication::TotemData->treeMap[event.GetItem()]->nome)
 		); 
+		TotemApplication::TotemData->treeMap[event.GetItem()]->treeActivated();
 	}
 	public:
 	TotemUI() : TotemAPP::TotemAPP(NULL) {TotemSetup();};

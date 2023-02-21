@@ -29,12 +29,35 @@ namespace TotemApplication
         bool vertebrato;
         std::string nome,categoria,imagePath;
         std::vector<paragraph> paragraphs;
+        void treeActivated()
+        {
+            std::cout<<"\n[Work in progress] activated "<<this<<" name:"<<this->nome;
+        }
     };
     class DataHandler
     {
+        protected:
         public:
+
+
+        //STL
         std::vector<AnimalData*> vDataList;
-        std::map<wxTreeItemId,std::string> treeMap;
+        std::map<wxTreeItemId,AnimalData*> treeMap;
+        
+        //Totem Data setup 
+        virtual void setup(parsers::CSV::Document* document)
+        {
+            vDataList.clear();
+            for(auto& itr : document->getvElements())
+            {
+                vDataList.push_back(new AnimalData(itr->Values.at(0),itr->Values.at(1)));
+            } return;
+        }
+        void setup(std::string filePath)
+        {
+            parsers::CSV::Document* document = new parsers::CSV::Document(filePath);
+            setup(document);
+        }
     };
     
 
@@ -43,39 +66,41 @@ namespace TotemApplication
         wxTreeItemId rootId = targetTree->AddRoot("Lista Animali");
         wxTreeItemId treeVertebrati = targetTree->AppendItem(rootId, "Vertebrati");
         wxTreeItemId treeInvertebrati = targetTree->AppendItem(rootId, "Invertebrati");
-        dataReference->treeMap[treeVertebrati] = "vertebrati";
-        dataReference->treeMap[treeInvertebrati] = "invertebrati";
+        dataReference->treeMap[treeVertebrati] = new AnimalData("vertebrati","NULL");
+        dataReference->treeMap[treeInvertebrati] = new AnimalData("invertebrati","NULL");
 
         wxTreeItemId treeMammiferi = targetTree->AppendItem(treeVertebrati, "Mammiferi");
         wxTreeItemId treeUccelli = targetTree->AppendItem(treeVertebrati, "Uccelli");
         wxTreeItemId treePesci = targetTree->AppendItem(treeVertebrati, "Pesci");
         wxTreeItemId treeAnfibi = targetTree->AppendItem(treeVertebrati, "Anfibi");
-        dataReference->treeMap[treeMammiferi] = "mammiferi";
-        dataReference->treeMap[treeUccelli] = "uccelli";
-        dataReference->treeMap[treePesci] = "pesci";
-        dataReference->treeMap[treeAnfibi] = "anfibi";
+        dataReference->treeMap[treeMammiferi] = new AnimalData("mammiferi","NULL");
+        dataReference->treeMap[treeUccelli] = new AnimalData("uccelli","NULL");
+        dataReference->treeMap[treePesci] = new AnimalData("pesci","NULL");
+        dataReference->treeMap[treeAnfibi] = new AnimalData("anfibi","NULL");
 
 
         wxTreeItemId treeMolluschi = targetTree->AppendItem(treeInvertebrati, "Molluschi");
         wxTreeItemId treeVermi = targetTree->AppendItem(treeInvertebrati, "Vermi");
         wxTreeItemId treeAntropodi = targetTree->AppendItem(treeInvertebrati, "Antropodi");
         wxTreeItemId treeEchiodermi = targetTree->AppendItem(treeInvertebrati, "Echiodermi");
-        dataReference->treeMap[treeMolluschi] = "molluschi";
-        dataReference->treeMap[treeVermi] = "vermi";
-        dataReference->treeMap[treeAntropodi] = "antropodi";
-        dataReference->treeMap[treeEchiodermi] = "echiodermi";
+        dataReference->treeMap[treeMolluschi] = new AnimalData("molluschi","NULL");
+        dataReference->treeMap[treeVermi] = new AnimalData("vermi","NULL");
+        dataReference->treeMap[treeAntropodi] = new AnimalData("antropodi","NULL");
+        dataReference->treeMap[treeEchiodermi] = new AnimalData("echiodermi","NULL");
 
         for(auto& itr : dataReference->vDataList)
         {
-            if(itr->categoria=="mammifero") {targetTree->AppendItem(treeMammiferi,itr->nome);}
-            if(itr->categoria=="uccello") {targetTree->AppendItem(treeUccelli,itr->nome);}
-            if(itr->categoria=="pesco") {targetTree->AppendItem(treePesci,itr->nome);}
-            if(itr->categoria=="anfibo") {targetTree->AppendItem(treeAnfibi,itr->nome);}
+            wxTreeItemId* nuovoAnimale = new wxTreeItemId;
+            if(itr->categoria=="mammifero") {*nuovoAnimale = targetTree->AppendItem(treeMammiferi,itr->nome);}
+            if(itr->categoria=="uccello") {*nuovoAnimale = targetTree->AppendItem(treeUccelli,itr->nome);}
+            if(itr->categoria=="pesce") {*nuovoAnimale = targetTree->AppendItem(treePesci,itr->nome);}
+            if(itr->categoria=="anfibio") {*nuovoAnimale = targetTree->AppendItem(treeAnfibi,itr->nome);}
             
-            if(itr->categoria=="molluscho") {targetTree->AppendItem(treeMolluschi,itr->nome);}
-            if(itr->categoria=="verme") {targetTree->AppendItem(treeVermi,itr->nome);}
-            if(itr->categoria=="antropodo") {targetTree->AppendItem(treeAntropodi,itr->nome);}
-            if(itr->categoria=="echiodermo") {targetTree->AppendItem(treeEchiodermi,itr->nome);}
+            if(itr->categoria=="molluscho") {*nuovoAnimale = targetTree->AppendItem(treeMolluschi,itr->nome);}
+            if(itr->categoria=="verme") {*nuovoAnimale = targetTree->AppendItem(treeVermi,itr->nome);}
+            if(itr->categoria=="antropodo") {*nuovoAnimale = targetTree->AppendItem(treeAntropodi,itr->nome);}
+            if(itr->categoria=="echiodermo") {*nuovoAnimale = targetTree->AppendItem(treeEchiodermi,itr->nome);}
+            dataReference->treeMap[*nuovoAnimale] = new AnimalData(itr->nome,itr->categoria);
         }
     }
     DataHandler* TotemData = new DataHandler;

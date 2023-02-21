@@ -1,1 +1,12 @@
-Tigre,MAMMIFERI,tigre.txt
+Tigre,mammifero,tigre.txt,
+Lupo,mammifero,lupo.txt,
+Gatto,mammifero,gatto.txt,
+Cane,mammifero,cane.txt,
+Falco,uccello,falco.txt,
+Aquila,uccello,aquila.txt,
+Passero,uccello,passero.txt,
+Squalo,pesce,squalo.txt,
+Balena,pesce,balena.txt,
+Delfino,pesce,delfino.txt,
+Rana,anfibio,rana.txt,
+Serpente,anfibio.serpente.txt,
