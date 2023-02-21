@@ -26,6 +26,7 @@
 #include <wx/statbmp.h>
 #include <wx/notebook.h>
 #include <wx/splitter.h>
+#include <wx/menu.h>
 #include <wx/frame.h>
 
 ///////////////////////////////////////////////////////////////////////////
@@ -58,12 +59,16 @@ class TotemAPP : public wxFrame
 		wxPanel* wxPanel_Habitat;
 		wxStaticText* m_staticText10;
 		wxPanel* wxPanel_Source;
+		wxMenuBar* MenuBar_TotemUI;
+		wxMenu* Utente;
 
 		// Virtual event handlers, override them in your derived class
 		virtual void TotemSetup( wxActivateEvent& event ) { event.Skip(); }
 		virtual void searchbartyped( wxCommandEvent& event ) { event.Skip(); }
 		virtual void toggleAnimale( wxTreeEvent& event ) { event.Skip(); }
 		virtual void newfileLoaded( wxFileDirPickerEvent& event ) { event.Skip(); }
+		virtual void MenuItem_Selected_User( wxCommandEvent& event ) { event.Skip(); }
+		virtual void MenuItem_Selected_Admin( wxCommandEvent& event ) { event.Skip(); }
 
 
 	public:

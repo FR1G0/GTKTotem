@@ -34,7 +34,6 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 
 	wxTree_Animali = new wxTreeCtrl( LeftPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_FULL_ROW_HIGHLIGHT );
 	LeftPanel_Sizer->Add( wxTree_Animali, 1, wxALL|wxEXPAND, 5 );
-	
 
 	wxFilePicker_csv = new wxFilePickerCtrl( LeftPanel, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE );
 	LeftPanel_Sizer->Add( wxFilePicker_csv, 0, wxALL|wxEXPAND, 5 );
@@ -140,6 +139,20 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 
 	this->SetSizer( TotemAPP_BoxSizer );
 	this->Layout();
+	MenuBar_TotemUI = new wxMenuBar( 0 );
+	Utente = new wxMenu();
+	wxMenuItem* MenuItem_User;
+	MenuItem_User = new wxMenuItem( Utente, wxID_ANY, wxString( wxT("Utente") ) , wxEmptyString, wxITEM_NORMAL );
+	Utente->Append( MenuItem_User );
+
+	wxMenuItem* MenuItem_Admin;
+	MenuItem_Admin = new wxMenuItem( Utente, wxID_ANY, wxString( wxT("Amministratore") ) , wxEmptyString, wxITEM_NORMAL );
+	Utente->Append( MenuItem_Admin );
+
+	MenuBar_TotemUI->Append( Utente, wxT("Utente") );
+
+	this->SetMenuBar( MenuBar_TotemUI );
+
 
 	this->Centre( wxBOTH );
 
@@ -148,6 +161,8 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxSearch->Connect( wxEVT_COMMAND_TEXT_UPDATED, wxCommandEventHandler( TotemAPP::searchbartyped ), NULL, this );
 	wxTree_Animali->Connect( wxEVT_COMMAND_TREE_GET_INFO, wxTreeEventHandler( TotemAPP::toggleAnimale ), NULL, this );
 	wxFilePicker_csv->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( TotemAPP::newfileLoaded ), NULL, this );
+	Utente->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( TotemAPP::MenuItem_Selected_User ), this, MenuItem_User->GetId());
+	Utente->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( TotemAPP::MenuItem_Selected_Admin ), this, MenuItem_Admin->GetId());
 }
 
 TotemAPP::~TotemAPP()

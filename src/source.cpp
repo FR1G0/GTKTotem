@@ -23,8 +23,18 @@ class TotemUI : public TotemAPP
 		setupTree();
 		return;
 	}
+	void newfileLoaded( wxFileDirPickerEvent& event ) 
+	{
+		setImage("assets/leone.jpg"); 
+	}
 	public:
 	TotemUI(int* pointer) : TotemAPP::TotemAPP(NULL) {TotemSetup();};
+	
+	//setimage è una procedura per inserire una nuova immagine nella zona immagine
+	void setImage(std::string image_path)
+	{
+		this->wxBitMap_immagine->SetBitmap(wxBitmap(image_path, wxBITMAP_TYPE_ANY ));
+	}
 };
 
 bool MyApp::OnInit()
