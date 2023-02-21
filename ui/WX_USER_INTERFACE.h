@@ -32,34 +32,35 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////
-/// Class MyFrame1
+/// Class TotemAPP
 ///////////////////////////////////////////////////////////////////////////////
-class MyFrame1 : public wxFrame
+class TotemAPP : public wxFrame
 {
 	private:
 
 	protected:
-		wxSplitterWindow* m_splitter1;
-		wxPanel* m_panel1;
-		wxSearchCtrl* m_searchCtrl1;
-		wxTreeCtrl* m_treeCtrl1;
-		wxFilePickerCtrl* m_filePicker1;
-		wxPanel* m_panel2;
-		wxSplitterWindow* m_splitter3;
-		wxPanel* m_panel12;
-		wxStaticText* m_staticText2;
-		wxStaticBitmap* m_bitmap1;
-		wxPanel* m_panel13;
-		wxNotebook* m_notebook6;
-		wxPanel* m_panel14;
+		wxSplitterWindow* Main_Splitter;
+		wxPanel* LeftPanel;
+		wxSearchCtrl* wxSearch;
+		wxTreeCtrl* wxTree_Animali;
+		wxFilePickerCtrl* wxFilePicker_csv;
+		wxPanel* RightPanel;
+		wxSplitterWindow* RightPanel_Splitter;
+		wxPanel* RightTopPanel;
+		wxStaticText* wxText_Titolo;
+		wxStaticBitmap* wxBitMap_immagine;
+		wxPanel* RightBottomPanel;
+		wxNotebook* wxNoteBookPanel;
+		wxPanel* wxPanel_Informazioni;
 		wxStaticText* m_staticText8;
-		wxPanel* m_panel16;
+		wxPanel* wxPanel_Categoria;
 		wxStaticText* m_staticText9;
-		wxPanel* m_panel17;
+		wxPanel* wxPanel_Habitat;
 		wxStaticText* m_staticText10;
-		wxPanel* m_panel15;
+		wxPanel* wxPanel_Source;
 
 		// Virtual event handlers, override them in your derived class
+		virtual void TotemSetup( wxActivateEvent& event ) { event.Skip(); }
 		virtual void searchbartyped( wxCommandEvent& event ) { event.Skip(); }
 		virtual void toggleAnimale( wxTreeEvent& event ) { event.Skip(); }
 		virtual void newfileLoaded( wxFileDirPickerEvent& event ) { event.Skip(); }
@@ -67,20 +68,20 @@ class MyFrame1 : public wxFrame
 
 	public:
 
-		MyFrame1( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxEmptyString, const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1280,720 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		TotemAPP( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("[Progetto TotemUI] - Rampazzo & Frigo"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1280,720 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
-		~MyFrame1();
+		~TotemAPP();
 
-		void m_splitter1OnIdle( wxIdleEvent& )
+		void Main_SplitterOnIdle( wxIdleEvent& )
 		{
-			m_splitter1->SetSashPosition( 214 );
-			m_splitter1->Disconnect( wxEVT_IDLE, wxIdleEventHandler( MyFrame1::m_splitter1OnIdle ), NULL, this );
+			Main_Splitter->SetSashPosition( 214 );
+			Main_Splitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( TotemAPP::Main_SplitterOnIdle ), NULL, this );
 		}
 
-		void m_splitter3OnIdle( wxIdleEvent& )
+		void RightPanel_SplitterOnIdle( wxIdleEvent& )
 		{
-			m_splitter3->SetSashPosition( 0 );
-			m_splitter3->Disconnect( wxEVT_IDLE, wxIdleEventHandler( MyFrame1::m_splitter3OnIdle ), NULL, this );
+			RightPanel_Splitter->SetSashPosition( 338 );
+			RightPanel_Splitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( TotemAPP::RightPanel_SplitterOnIdle ), NULL, this );
 		}
 
 };
