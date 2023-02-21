@@ -5,6 +5,7 @@
 
 #include<string>
 #include<fstream>
+#include<thread>
 
 #include"common.hpp"
 
@@ -33,24 +34,36 @@ namespace TotemApplication
     {
         public:
         std::vector<AnimalData*> vDataList;
+        std::map<wxTreeItemId,std::string> treeMap;
     };
-
+    
 
     void generateTree(wxTreeCtrl* targetTree,DataHandler* dataReference)
     {
         wxTreeItemId rootId = targetTree->AddRoot("Lista Animali");
         wxTreeItemId treeVertebrati = targetTree->AppendItem(rootId, "Vertebrati");
         wxTreeItemId treeInvertebrati = targetTree->AppendItem(rootId, "Invertebrati");
+        dataReference->treeMap[treeVertebrati] = "vertebrati";
+        dataReference->treeMap[treeInvertebrati] = "invertebrati";
 
         wxTreeItemId treeMammiferi = targetTree->AppendItem(treeVertebrati, "Mammiferi");
         wxTreeItemId treeUccelli = targetTree->AppendItem(treeVertebrati, "Uccelli");
         wxTreeItemId treePesci = targetTree->AppendItem(treeVertebrati, "Pesci");
         wxTreeItemId treeAnfibi = targetTree->AppendItem(treeVertebrati, "Anfibi");
+        dataReference->treeMap[treeMammiferi] = "mammiferi";
+        dataReference->treeMap[treeUccelli] = "uccelli";
+        dataReference->treeMap[treePesci] = "pesci";
+        dataReference->treeMap[treeAnfibi] = "anfibi";
+
 
         wxTreeItemId treeMolluschi = targetTree->AppendItem(treeInvertebrati, "Molluschi");
         wxTreeItemId treeVermi = targetTree->AppendItem(treeInvertebrati, "Vermi");
         wxTreeItemId treeAntropodi = targetTree->AppendItem(treeInvertebrati, "Antropodi");
         wxTreeItemId treeEchiodermi = targetTree->AppendItem(treeInvertebrati, "Echiodermi");
+        dataReference->treeMap[treeMolluschi] = "molluschi";
+        dataReference->treeMap[treeVermi] = "vermi";
+        dataReference->treeMap[treeAntropodi] = "antropodi";
+        dataReference->treeMap[treeEchiodermi] = "echiodermi";
 
         for(auto& itr : dataReference->vDataList)
         {
@@ -65,7 +78,11 @@ namespace TotemApplication
             if(itr->categoria=="echiodermo") {targetTree->AppendItem(treeEchiodermi,itr->nome);}
         }
     }
-
+    DataHandler* TotemData = new DataHandler;
+    void close()
+    {
+        delete TotemData;
+    }
 }
 
 namespace Animali

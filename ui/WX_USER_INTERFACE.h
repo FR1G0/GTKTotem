@@ -17,12 +17,13 @@
 #include <wx/settings.h>
 #include <wx/treectrl.h>
 #include <wx/filepicker.h>
-#include <wx/sizer.h>
-#include <wx/panel.h>
-#include <wx/stattext.h>
+#include <wx/button.h>
 #include <wx/bitmap.h>
 #include <wx/image.h>
 #include <wx/icon.h>
+#include <wx/sizer.h>
+#include <wx/panel.h>
+#include <wx/stattext.h>
 #include <wx/statbmp.h>
 #include <wx/notebook.h>
 #include <wx/splitter.h>
@@ -45,6 +46,7 @@ class TotemAPP : public wxFrame
 		wxSearchCtrl* wxSearch;
 		wxTreeCtrl* wxTree_Animali;
 		wxFilePickerCtrl* wxFilePicker_csv;
+		wxButton* DebugButton;
 		wxPanel* RightPanel;
 		wxSplitterWindow* RightPanel_Splitter;
 		wxPanel* RightTopPanel;
@@ -59,6 +61,8 @@ class TotemAPP : public wxFrame
 		wxPanel* wxPanel_Habitat;
 		wxStaticText* m_staticText10;
 		wxPanel* wxPanel_Source;
+		wxFilePickerCtrl* current_path_image;
+		wxFilePickerCtrl* current_info;
 		wxMenuBar* MenuBar_TotemUI;
 		wxMenu* Utente;
 
@@ -67,6 +71,7 @@ class TotemAPP : public wxFrame
 		virtual void searchbartyped( wxCommandEvent& event ) { event.Skip(); }
 		virtual void toggleAnimale( wxTreeEvent& event ) { event.Skip(); }
 		virtual void newfileLoaded( wxFileDirPickerEvent& event ) { event.Skip(); }
+		virtual void EventDebugButton( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuItem_Selected_User( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuItem_Selected_Admin( wxCommandEvent& event ) { event.Skip(); }
 

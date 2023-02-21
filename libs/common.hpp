@@ -47,6 +47,16 @@ namespace filestream
     }
 }
 
+namespace wxConverter
+{
+    std::string wxString_to_string(wxString sample) {return std::string(sample.mb_str());}
+    wxString string_to_wxString(std::string sample)
+    {
+        wxString *returnValue = new wxString(sample.c_str(),wxConvUTF8);
+        return *returnValue;
+    }
+}
+
 namespace parsers
 {
     namespace CSV
