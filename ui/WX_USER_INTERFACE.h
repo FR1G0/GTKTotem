@@ -78,7 +78,7 @@ class TotemAPP : public wxFrame
 
 	public:
 
-		TotemAPP( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("[Progetto TotemUI] - Rampazzo & Frigo"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1280,720 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		TotemAPP( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1280,720 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~TotemAPP();
 

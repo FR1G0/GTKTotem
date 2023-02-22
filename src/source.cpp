@@ -55,8 +55,16 @@ class TotemUI : public TotemAPP
 
 bool MyApp::OnInit()
 {
+	//declaration
     TotemUI *frame = new TotemUI();
-    frame->Show( true );
+
+	//setup stage
+	frame->SetTitle("[TOTEMUI] Progetto \"Totem Per zoo\" Rampazzo & Frigo");
+	frame->SetIcon(*(new wxIcon("ico.png")));
+	frame->CenterOnScreen(wxBOTH);
+	
+	//display 
+	frame->Show( true );
     return true;
 }
 
