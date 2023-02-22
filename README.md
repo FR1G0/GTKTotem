@@ -1,4 +1,9 @@
 # TotemUI
+### Progetto scuola Rampazzo & Frigo 
+L'idea è quella di creare un'applicazione che riesca a imitare un totem per zoo, nel nostro caso
+abbiamo creato un'interfaccia grafica capace di visualizzare una lista degli animali che rispetta 
+la gerarchia (vertebrati,invertebrati,mammiferi,molluschi ecc...)
+![Logo](assets/githubLogo.png)
 ![OS](https://img.shields.io/badge/OS-Windows,Linux,MacOs-cyan?style=for-the-badge)
 ![language](https://img.shields.io/badge/lang-c++-blueviolet?style=for-the-badge)
 ![License](https://img.shields.io/github/license/FR1G0/GTKTotem?style=for-the-badge)
