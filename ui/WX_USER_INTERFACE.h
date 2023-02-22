@@ -25,6 +25,7 @@
 #include <wx/panel.h>
 #include <wx/stattext.h>
 #include <wx/statbmp.h>
+#include <wx/html/htmlwin.h>
 #include <wx/notebook.h>
 #include <wx/splitter.h>
 #include <wx/menu.h>
@@ -55,16 +56,15 @@ class TotemAPP : public wxFrame
 		wxPanel* RightBottomPanel;
 		wxNotebook* wxNoteBookPanel;
 		wxPanel* wxPanel_Informazioni;
-		wxStaticText* m_staticText8;
+		wxHtmlWindow* wxHtmlWindow_Informazioni;
 		wxPanel* wxPanel_Categoria;
-		wxStaticText* m_staticText9;
+		wxHtmlWindow* wxHtmlWindow_Categoria;
 		wxPanel* wxPanel_Habitat;
-		wxStaticText* m_staticText10;
+		wxHtmlWindow* wxHtmlWindow_Habitat_Naturale;
 		wxPanel* wxPanel_Source;
-		wxFilePickerCtrl* current_path_image;
-		wxFilePickerCtrl* current_info;
 		wxMenuBar* MenuBar_TotemUI;
-		wxMenu* Utente;
+		wxMenu* wxMenu_File;
+		wxMenu* wxMenu_Utente;
 
 		// Virtual event handlers, override them in your derived class
 		virtual void TotemSetup( wxActivateEvent& event ) { event.Skip(); }

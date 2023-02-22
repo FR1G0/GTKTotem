@@ -33,12 +33,14 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	LeftPanel_Sizer->Add( wxSearch, 0, wxALL|wxEXPAND, 5 );
 
 	wxTree_Animali = new wxTreeCtrl( LeftPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_FULL_ROW_HIGHLIGHT );
+	wxTree_Animali->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT ) );
+
 	LeftPanel_Sizer->Add( wxTree_Animali, 1, wxALL|wxEXPAND, 5 );
 
-	wxFilePicker_csv = new wxFilePickerCtrl( LeftPanel, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE );
+	wxFilePicker_csv = new wxFilePickerCtrl( LeftPanel, wxID_ANY, wxEmptyString, wxT("Selezionare un file che contiene le informazioni per gli animali"), wxT("*.*"), wxDefaultPosition, wxSize( -1,-1 ), wxFLP_DEFAULT_STYLE );
 	LeftPanel_Sizer->Add( wxFilePicker_csv, 0, wxALL|wxEXPAND, 5 );
 
-	DebugButton = new wxButton( LeftPanel, wxID_ANY, wxT("DebugButton"), wxDefaultPosition, wxDefaultSize, 0 );
+	DebugButton = new wxButton( LeftPanel, wxID_ANY, wxT("DebugButton"), wxDefaultPosition, wxSize( -1,20 ), 0 );
 	LeftPanel_Sizer->Add( DebugButton, 0, wxALL|wxEXPAND, 5 );
 
 
@@ -56,8 +58,9 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* RightTopPanel_Sizer;
 	RightTopPanel_Sizer = new wxBoxSizer( wxVERTICAL );
 
-	wxText_Titolo = new wxStaticText( RightTopPanel, wxID_ANY, wxT("NOME ANIMALE"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL );
+	wxText_Titolo = new wxStaticText( RightTopPanel, wxID_ANY, wxT("NOME ANIMALE"), wxDefaultPosition, wxDefaultSize, 0 );
 	wxText_Titolo->Wrap( -1 );
+	wxText_Titolo->SetFont( wxFont( 10, wxFONTFAMILY_SWISS, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Sans") ) );
 	wxText_Titolo->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT ) );
 	wxText_Titolo->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
 
@@ -79,12 +82,11 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer11;
 	bSizer11 = new wxBoxSizer( wxVERTICAL );
 
-	m_staticText8 = new wxStaticText( wxPanel_Informazioni, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText8->Wrap( -1 );
-	m_staticText8->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT ) );
-	m_staticText8->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+	wxHtmlWindow_Informazioni = new wxHtmlWindow( wxPanel_Informazioni, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO );
+	wxHtmlWindow_Informazioni->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT ) );
+	wxHtmlWindow_Informazioni->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
 
-	bSizer11->Add( m_staticText8, 1, wxALL|wxEXPAND, 5 );
+	bSizer11->Add( wxHtmlWindow_Informazioni, 1, wxALL|wxEXPAND, 5 );
 
 
 	wxPanel_Informazioni->SetSizer( bSizer11 );
@@ -95,9 +97,8 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer13;
 	bSizer13 = new wxBoxSizer( wxVERTICAL );
 
-	m_staticText9 = new wxStaticText( wxPanel_Categoria, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText9->Wrap( -1 );
-	bSizer13->Add( m_staticText9, 1, wxALL|wxEXPAND, 5 );
+	wxHtmlWindow_Categoria = new wxHtmlWindow( wxPanel_Categoria, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO );
+	bSizer13->Add( wxHtmlWindow_Categoria, 0, wxALL, 5 );
 
 
 	wxPanel_Categoria->SetSizer( bSizer13 );
@@ -108,9 +109,8 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* bSizer14;
 	bSizer14 = new wxBoxSizer( wxVERTICAL );
 
-	m_staticText10 = new wxStaticText( wxPanel_Habitat, wxID_ANY, wxT("MyLabel"), wxDefaultPosition, wxDefaultSize, 0 );
-	m_staticText10->Wrap( -1 );
-	bSizer14->Add( m_staticText10, 1, wxALL|wxEXPAND, 5 );
+	wxHtmlWindow_Habitat_Naturale = new wxHtmlWindow( wxPanel_Habitat, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO );
+	bSizer14->Add( wxHtmlWindow_Habitat_Naturale, 0, wxALL, 5 );
 
 
 	wxPanel_Habitat->SetSizer( bSizer14 );
@@ -120,12 +120,6 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxPanel_Source = new wxPanel( wxNoteBookPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* bSizer12;
 	bSizer12 = new wxBoxSizer( wxVERTICAL );
-
-	current_path_image = new wxFilePickerCtrl( wxPanel_Source, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE );
-	bSizer12->Add( current_path_image, 0, wxALL, 5 );
-
-	current_info = new wxFilePickerCtrl( wxPanel_Source, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE );
-	bSizer12->Add( current_info, 0, wxALL, 5 );
 
 
 	wxPanel_Source->SetSizer( bSizer12 );
@@ -153,16 +147,23 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->SetSizer( TotemAPP_BoxSizer );
 	this->Layout();
 	MenuBar_TotemUI = new wxMenuBar( 0 );
-	Utente = new wxMenu();
-	wxMenuItem* MenuItem_User;
-	MenuItem_User = new wxMenuItem( Utente, wxID_ANY, wxString( wxT("Utente") ) , wxEmptyString, wxITEM_NORMAL );
-	Utente->Append( MenuItem_User );
+	wxMenu_File = new wxMenu();
+	wxMenuItem* wxMenuItem_File;
+	wxMenuItem_File = new wxMenuItem( wxMenu_File, wxID_ANY, wxString( wxT("Carica File") ) , wxEmptyString, wxITEM_NORMAL );
+	wxMenu_File->Append( wxMenuItem_File );
 
-	wxMenuItem* MenuItem_Admin;
-	MenuItem_Admin = new wxMenuItem( Utente, wxID_ANY, wxString( wxT("Amministratore") ) , wxEmptyString, wxITEM_NORMAL );
-	Utente->Append( MenuItem_Admin );
+	MenuBar_TotemUI->Append( wxMenu_File, wxT("File") );
 
-	MenuBar_TotemUI->Append( Utente, wxT("Utente") );
+	wxMenu_Utente = new wxMenu();
+	wxMenuItem* wxMenuItem_User;
+	wxMenuItem_User = new wxMenuItem( wxMenu_Utente, wxID_ANY, wxString( wxT("Utente") ) , wxEmptyString, wxITEM_NORMAL );
+	wxMenu_Utente->Append( wxMenuItem_User );
+
+	wxMenuItem* wxMenuItem_Admin;
+	wxMenuItem_Admin = new wxMenuItem( wxMenu_Utente, wxID_ANY, wxString( wxT("Amministratore") ) , wxEmptyString, wxITEM_NORMAL );
+	wxMenu_Utente->Append( wxMenuItem_Admin );
+
+	MenuBar_TotemUI->Append( wxMenu_Utente, wxT("Utente") );
 
 	this->SetMenuBar( MenuBar_TotemUI );
 
@@ -175,8 +176,8 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxTree_Animali->Connect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( TotemAPP::toggleAnimale ), NULL, this );
 	wxFilePicker_csv->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( TotemAPP::newfileLoaded ), NULL, this );
 	DebugButton->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( TotemAPP::EventDebugButton ), NULL, this );
-	Utente->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( TotemAPP::MenuItem_Selected_User ), this, MenuItem_User->GetId());
-	Utente->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( TotemAPP::MenuItem_Selected_Admin ), this, MenuItem_Admin->GetId());
+	wxMenu_Utente->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( TotemAPP::MenuItem_Selected_User ), this, wxMenuItem_User->GetId());
+	wxMenu_Utente->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( TotemAPP::MenuItem_Selected_Admin ), this, wxMenuItem_Admin->GetId());
 }
 
 TotemAPP::~TotemAPP()

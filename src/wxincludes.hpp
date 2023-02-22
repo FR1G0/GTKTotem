@@ -33,3 +33,6 @@
 
 //il file header per la nostra applicazione
 #include "../libs/myapp.h"
+
+//overloading
+std::ostream& operator<<(std::ostream& os,wxString* Text) { os << wxConverter::wxString_to_string(*Text); return os; }

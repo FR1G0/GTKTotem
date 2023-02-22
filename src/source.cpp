@@ -23,10 +23,11 @@ class TotemUI : public TotemAPP
 		setupTree();
 		return;
 	}
-	virtual void EventDebugButton( wxCommandEvent& event ) { 
+	virtual void EventDebugButton( wxCommandEvent& event ) 
+	{
+		setImage("assets/leone.jpg");
+		this->wxHtmlWindow_Informazioni->LoadPage("data/Html/tigre.htm");
 		std::string content = filestream::getFileContents("assets/text/lorem.txt");
-		this->m_staticText8->SetLabel(wxConverter::string_to_wxString(content)); 
-		
 	}
 	//nuovo file caricato 
 	void newfileLoaded( wxFileDirPickerEvent& event ) 
@@ -34,6 +35,8 @@ class TotemUI : public TotemAPP
 		this->wxTree_Animali->DeleteAllItems();
 		TotemApplication::TotemData->setup(wxConverter::wxString_to_string(event.GetPath()));
 		TotemApplication::generateTree(this->wxTree_Animali,TotemApplication::TotemData);
+		this->wxTree_Animali->ExpandAll();
+		return;
 	}
 	virtual void toggleAnimale( wxTreeEvent& event ) 
 	{
