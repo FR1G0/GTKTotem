@@ -30,6 +30,7 @@
 #include <wx/notebook.h>
 #include <wx/splitter.h>
 #include <wx/frame.h>
+#include <wx/webview.h>
 
 //il file header per la nostra applicazione
 #include "../libs/myapp.h"

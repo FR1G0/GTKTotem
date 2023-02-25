@@ -9,22 +9,21 @@
 
 #include <wx/artprov.h>
 #include <wx/xrc/xmlres.h>
+#include <wx/button.h>
 #include <wx/string.h>
-#include <wx/srchctrl.h>
+#include <wx/bitmap.h>
+#include <wx/image.h>
+#include <wx/icon.h>
 #include <wx/gdicmn.h>
 #include <wx/font.h>
 #include <wx/colour.h>
 #include <wx/settings.h>
-#include <wx/treectrl.h>
-#include <wx/filepicker.h>
-#include <wx/button.h>
-#include <wx/bitmap.h>
-#include <wx/image.h>
-#include <wx/icon.h>
 #include <wx/sizer.h>
 #include <wx/panel.h>
-#include <wx/stattext.h>
+#include <wx/treectrl.h>
+#include <wx/filepicker.h>
 #include <wx/statbmp.h>
+#include <wx/stattext.h>
 #include <wx/html/htmlwin.h>
 #include <wx/notebook.h>
 #include <wx/splitter.h>
@@ -44,16 +43,17 @@ class TotemAPP : public wxFrame
 	protected:
 		wxSplitterWindow* Main_Splitter;
 		wxPanel* LeftPanel;
-		wxSearchCtrl* wxSearch;
+		wxPanel* wxTreeControlPanel;
+		wxButton* btn_ExpandTree;
+		wxButton* btn_CollapseTree;
 		wxTreeCtrl* wxTree_Animali;
 		wxFilePickerCtrl* wxFilePicker_csv;
-		wxButton* DebugButton;
 		wxPanel* RightPanel;
 		wxSplitterWindow* RightPanel_Splitter;
 		wxPanel* RightTopPanel;
-		wxStaticText* wxText_Titolo;
 		wxStaticBitmap* wxBitMap_immagine;
 		wxPanel* RightBottomPanel;
+		wxStaticText* wxText_Titolo;
 		wxNotebook* wxNoteBookPanel;
 		wxPanel* wxPanel_Informazioni;
 		wxHtmlWindow* wxHtmlWindow_Informazioni;
@@ -61,24 +61,28 @@ class TotemAPP : public wxFrame
 		wxHtmlWindow* wxHtmlWindow_Categoria;
 		wxPanel* wxPanel_Habitat;
 		wxHtmlWindow* wxHtmlWindow_Habitat_Naturale;
-		wxPanel* wxPanel_Source;
+		wxPanel* wxPanel_Altro;
+		wxHtmlWindow* wxHtmlWindow_Altro;
 		wxMenuBar* MenuBar_TotemUI;
-		wxMenu* wxMenu_File;
+		wxMenu* wxMenu_Program;
+		wxMenu* wxSubMenu_File;
+		wxMenu* wxSubMenu_Debug;
 		wxMenu* wxMenu_Utente;
 
 		// Virtual event handlers, override them in your derived class
 		virtual void TotemSetup( wxActivateEvent& event ) { event.Skip(); }
-		virtual void searchbartyped( wxCommandEvent& event ) { event.Skip(); }
+		virtual void btn_ExpandTree_Clicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void btn_CollapseTree_Clicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void toggleAnimale( wxTreeEvent& event ) { event.Skip(); }
 		virtual void newfileLoaded( wxFileDirPickerEvent& event ) { event.Skip(); }
 		virtual void EventDebugButton( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuItem_Selected_User( wxCommandEvent& event ) { event.Skip(); }
-		virtual void MenuItem_Selected_Admin( wxCommandEvent& event ) { event.Skip(); }
+		virtual void MenuItem_Selected_Aggiungi( wxCommandEvent& event ) { event.Skip(); }
 
 
 	public:
 
-		TotemAPP( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT(""), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1280,720 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+		TotemAPP( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("[Progetto TotemUI] - Rampazzo & Frigo"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 1280,720 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~TotemAPP();
 
