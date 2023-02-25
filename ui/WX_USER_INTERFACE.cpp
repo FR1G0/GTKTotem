@@ -178,10 +178,6 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	MenuBar_TotemUI->Append( wxMenu_Program, wxT("Programma") );
 
 	wxMenu_Utente = new wxMenu();
-	wxMenuItem* wxMenuItem_EliminaAnimale;
-	wxMenuItem_EliminaAnimale = new wxMenuItem( wxMenu_Utente, wxID_ANY, wxString( wxT("Elimina Animale") ) , wxEmptyString, wxITEM_NORMAL );
-	wxMenu_Utente->Append( wxMenuItem_EliminaAnimale );
-
 	wxMenuItem* wxMenuItem_AggiungiAnimale;
 	wxMenuItem_AggiungiAnimale = new wxMenuItem( wxMenu_Utente, wxID_ANY, wxString( wxT("Aggiungi Animale") ) , wxEmptyString, wxITEM_NORMAL );
 	wxMenu_Utente->Append( wxMenuItem_AggiungiAnimale );
@@ -200,7 +196,6 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxTree_Animali->Connect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( TotemAPP::toggleAnimale ), NULL, this );
 	wxFilePicker_csv->Connect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( TotemAPP::newfileLoaded ), NULL, this );
 	wxSubMenu_Debug->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( TotemAPP::EventDebugButton ), this, MenuItem_DebugButton->GetId());
-	wxMenu_Utente->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( TotemAPP::MenuItem_Selected_User ), this, wxMenuItem_EliminaAnimale->GetId());
 	wxMenu_Utente->Bind(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler( TotemAPP::MenuItem_Selected_Aggiungi ), this, wxMenuItem_AggiungiAnimale->GetId());
 }
 
@@ -213,4 +208,56 @@ TotemAPP::~TotemAPP()
 	wxTree_Animali->Disconnect( wxEVT_COMMAND_TREE_ITEM_ACTIVATED, wxTreeEventHandler( TotemAPP::toggleAnimale ), NULL, this );
 	wxFilePicker_csv->Disconnect( wxEVT_COMMAND_FILEPICKER_CHANGED, wxFileDirPickerEventHandler( TotemAPP::newfileLoaded ), NULL, this );
 
+}
+
+AggiungiAnimale::AggiungiAnimale( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
+{
+	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
+
+	wxBoxSizer* AggiungiAnimale_Sizer;
+	AggiungiAnimale_Sizer = new wxBoxSizer( wxVERTICAL );
+
+	AggiungiAnimale_Panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* AggiungiAnimalePanel_Sizer;
+	AggiungiAnimalePanel_Sizer = new wxBoxSizer( wxVERTICAL );
+
+	aggiungiNome = new wxStaticText( AggiungiAnimale_Panel, wxID_ANY, wxT("Nome"), wxDefaultPosition, wxDefaultSize, 0 );
+	aggiungiNome->Wrap( -1 );
+	AggiungiAnimalePanel_Sizer->Add( aggiungiNome, 0, wxALL, 5 );
+
+	Input_nuovoNome = new wxTextCtrl( AggiungiAnimale_Panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	AggiungiAnimalePanel_Sizer->Add( Input_nuovoNome, 0, wxALL|wxEXPAND, 5 );
+
+	AggiungiCategoria = new wxStaticText( AggiungiAnimale_Panel, wxID_ANY, wxT("Categoria"), wxDefaultPosition, wxDefaultSize, 0 );
+	AggiungiCategoria->Wrap( -1 );
+	AggiungiAnimalePanel_Sizer->Add( AggiungiCategoria, 0, wxALL, 5 );
+
+	input_nuovaCategoria = new wxTextCtrl( AggiungiAnimale_Panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
+	AggiungiAnimalePanel_Sizer->Add( input_nuovaCategoria, 0, wxALL|wxEXPAND, 5 );
+
+	AggiungiImmagine = new wxStaticText( AggiungiAnimale_Panel, wxID_ANY, wxT("Immagine"), wxDefaultPosition, wxDefaultSize, 0 );
+	AggiungiImmagine->Wrap( -1 );
+	AggiungiAnimalePanel_Sizer->Add( AggiungiImmagine, 0, wxALL, 5 );
+
+	input_nuovaImmagine = new wxFilePickerCtrl( AggiungiAnimale_Panel, wxID_ANY, wxEmptyString, wxT("Select a file"), wxT("*.*"), wxDefaultPosition, wxDefaultSize, wxFLP_DEFAULT_STYLE );
+	AggiungiAnimalePanel_Sizer->Add( input_nuovaImmagine, 0, wxALL|wxEXPAND, 5 );
+
+	NuovoAnimaleSubmit = new wxButton( AggiungiAnimale_Panel, wxID_ANY, wxT("Conferma"), wxDefaultPosition, wxDefaultSize, 0 );
+	AggiungiAnimalePanel_Sizer->Add( NuovoAnimaleSubmit, 0, wxALL|wxALIGN_RIGHT, 5 );
+
+
+	AggiungiAnimale_Panel->SetSizer( AggiungiAnimalePanel_Sizer );
+	AggiungiAnimale_Panel->Layout();
+	AggiungiAnimalePanel_Sizer->Fit( AggiungiAnimale_Panel );
+	AggiungiAnimale_Sizer->Add( AggiungiAnimale_Panel, 1, wxEXPAND | wxALL, 5 );
+
+
+	this->SetSizer( AggiungiAnimale_Sizer );
+	this->Layout();
+
+	this->Centre( wxBOTH );
+}
+
+AggiungiAnimale::~AggiungiAnimale()
+{
 }

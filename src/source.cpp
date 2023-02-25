@@ -10,9 +10,11 @@ public:
 
 wxIMPLEMENT_APP(MyApp);
 
+
 class TotemUI : public TotemAPP
 {
 	private:
+	AggiungiAnimale* aggiungiForm = new AggiungiAnimale(NULL);
 	protected:
 	void setupTree()
 	{
@@ -22,6 +24,7 @@ class TotemUI : public TotemAPP
 	{
 		setupTree();
 		setImage("assets/githubLogo.png");
+		TotemApplication::generatefolders();
 		return;
 	}
 	void EventDebugButton( wxCommandEvent& event ) 
@@ -47,10 +50,11 @@ class TotemUI : public TotemAPP
 		setImage(TotemApplication::TotemData->treeMap[event.GetItem()]->getCartella());
 		this->wxHtmlWindow_Informazioni->LoadPage(TotemApplication::TotemData->treeMap[event.GetItem()]->getInfo());
 	}
-	void MenuItem_Selected_Aggiungi( wxCommandEvent& event ) { }
 	
 	void btn_ExpandTree_Clicked( wxCommandEvent& event ) { this->wxTree_Animali->ExpandAll(); }
 	void btn_CollapseTree_Clicked( wxCommandEvent& event ) { this->wxTree_Animali->CollapseAll(); }
+	
+	void MenuItem_Selected_Aggiungi( wxCommandEvent& event ) { aggiungiForm->Show(true); }
 	public:
 	TotemUI() : TotemAPP::TotemAPP(NULL) {TotemSetup();}; //overloaded ctor
 	

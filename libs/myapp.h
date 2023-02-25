@@ -7,6 +7,9 @@
 #include<fstream>
 #include<thread>
 
+#include <sys/stat.h>
+#include <sys/types.h>
+
 #include"common.hpp"
 
 
@@ -33,9 +36,9 @@ namespace TotemApplication
         {
             std::cout<<"\n[Work in progress] activated "<<this<<" name:"<<this->nome;
         }
-        std::string getCartella() { return "data/Cartella"+nome+"/"+imageName; }
-        std::string getInfo () {return "data/Cartella"+nome+"/"+nome+"_info.html";}
-        std::string getHabitat () {return "data/Cartella"+nome+"/"+nome+"_habitat.html";}
+        std::string getCartella() { return "data/collection/Cartella"+nome+"/"+imageName; }
+        std::string getInfo () {return "data/collection/Cartella"+nome+"/"+nome+"_info.html";}
+        std::string getHabitat () {return "data/collection/Cartella"+nome+"/"+nome+"_habitat.html";}
     };
     class DataHandler
     {
@@ -62,10 +65,6 @@ namespace TotemApplication
         {
             parsers::CSV::Document* document = new parsers::CSV::Document(filePath);
             setup(document);
-        }
-        void GenerateData()
-        {
-            return;
         }
     };
     
@@ -117,6 +116,19 @@ namespace TotemApplication
     {
         delete TotemData;
     }
+    void generatefolders()
+    {
+        for(auto& animali : TotemData->treeMap)
+        {
+            AnimalData* ptr = animali.second;
+            std::string foldername = "data/collection/Cartella"+ptr->nome;
+            mkdir(foldername.c_str(), 0777);
+            std::ofstream file1(foldername+"/"+ptr->nome+"_info.html");
+            std::ofstream file2(foldername+"/"+ptr->nome+"_habitat.html");
+            std::ofstream file3(foldername+"/"+ptr->nome+".jpg");
+            file1.close();file2.close();file3.close();
+        }
+    }
 }
 
 namespace Animali
@@ -125,9 +137,8 @@ namespace Animali
     {
     protected:
         std::string categoria = "NULL";
-
     public:
-        AnimaleGenerico(){};
+        AnimaleGenerico() {};
         virtual std::string getGerarchia() = 0;
     };
     class Vertebrato : public AnimaleGenerico

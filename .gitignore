@@ -5,6 +5,7 @@
 .vscode
 test/compiled/*
 assets/*
+data/collection/*
 # User-specific files
 *.rsuser
 *.suo

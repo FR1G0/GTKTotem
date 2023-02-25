@@ -29,6 +29,7 @@
 #include <wx/splitter.h>
 #include <wx/menu.h>
 #include <wx/frame.h>
+#include <wx/textctrl.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -76,7 +77,6 @@ class TotemAPP : public wxFrame
 		virtual void toggleAnimale( wxTreeEvent& event ) { event.Skip(); }
 		virtual void newfileLoaded( wxFileDirPickerEvent& event ) { event.Skip(); }
 		virtual void EventDebugButton( wxCommandEvent& event ) { event.Skip(); }
-		virtual void MenuItem_Selected_User( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuItem_Selected_Aggiungi( wxCommandEvent& event ) { event.Skip(); }
 
 
@@ -97,6 +97,31 @@ class TotemAPP : public wxFrame
 			RightPanel_Splitter->SetSashPosition( 338 );
 			RightPanel_Splitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( TotemAPP::RightPanel_SplitterOnIdle ), NULL, this );
 		}
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class AggiungiAnimale
+///////////////////////////////////////////////////////////////////////////////
+class AggiungiAnimale : public wxFrame
+{
+	private:
+
+	protected:
+		wxPanel* AggiungiAnimale_Panel;
+		wxStaticText* aggiungiNome;
+		wxTextCtrl* Input_nuovoNome;
+		wxStaticText* AggiungiCategoria;
+		wxTextCtrl* input_nuovaCategoria;
+		wxStaticText* AggiungiImmagine;
+		wxFilePickerCtrl* input_nuovaImmagine;
+		wxButton* NuovoAnimaleSubmit;
+
+	public:
+
+		AggiungiAnimale( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Finestra per aggiungere un nuovo animale"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
+
+		~AggiungiAnimale();
 
 };
 
