@@ -93,6 +93,7 @@ class TotemUI : public TotemAPP
 		this->wxBitMap_immagine->SetBitmap(wxBitmap(image_path, wxBITMAP_TYPE_ANY ));
 		this->wxBitMap_immagine->Fit();
 	}
+	void showHelp() {HelpPage->Show(true);}
 };
 
 bool MyApp::OnInit()
@@ -107,6 +108,7 @@ bool MyApp::OnInit()
 	
 	//display 
 	frame->Show( true );
+	frame->showHelp();
 
     return true;
 }

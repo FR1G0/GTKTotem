@@ -290,7 +290,7 @@ Help::Help( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoin
 
 	Help_Sizer->SetMinSize( wxSize( 720,400 ) );
 	wxHtmlWindow_Help = new wxHtmlWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxHW_SCROLLBAR_AUTO );
-	Help_Sizer->Add( wxHtmlWindow_Help, 0, wxALL, 5 );
+	Help_Sizer->Add( wxHtmlWindow_Help, 1, wxALL|wxEXPAND, 5 );
 
 
 	this->SetSizer( Help_Sizer );
