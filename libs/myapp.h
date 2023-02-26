@@ -5,7 +5,6 @@
 
 #include<string>
 #include<fstream>
-#include<thread>
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -30,7 +29,7 @@ namespace TotemApplication
             {};
         uint64_t PRIMARY_KEY=0;
         bool vertebrato;
-        std::string nome,categoria,imageName;
+        std::string nome,categoria = "default",imageName = "default.jpg";
         std::vector<paragraph> paragraphs;
         void treeActivated()
         {
@@ -38,6 +37,7 @@ namespace TotemApplication
         }
         std::string getCartella() { return "data/collection/Cartella"+nome+"/"+imageName; }
         std::string getInfo () {return "data/collection/Cartella"+nome+"/"+nome+"_info.html";}
+        std::string getCategoria() {return "data/categoria/"+categoria+".html";}
         std::string getHabitat () {return "data/collection/Cartella"+nome+"/"+nome+"_habitat.html";}
     };
     class DataHandler
@@ -104,7 +104,7 @@ namespace TotemApplication
             if(itr->categoria=="pesce") {*nuovoAnimale = targetTree->AppendItem(treePesci,itr->nome);}
             if(itr->categoria=="anfibio") {*nuovoAnimale = targetTree->AppendItem(treeAnfibi,itr->nome);}
             
-            if(itr->categoria=="molluscho") {*nuovoAnimale = targetTree->AppendItem(treeMolluschi,itr->nome);}
+            if(itr->categoria=="mollusco") {*nuovoAnimale = targetTree->AppendItem(treeMolluschi,itr->nome);}
             if(itr->categoria=="verme") {*nuovoAnimale = targetTree->AppendItem(treeVermi,itr->nome);}
             if(itr->categoria=="artropode") {*nuovoAnimale = targetTree->AppendItem(treeAntropodi,itr->nome);}
             if(itr->categoria=="echinoderma") {*nuovoAnimale = targetTree->AppendItem(treeEchiodermi,itr->nome);}
@@ -119,15 +119,20 @@ namespace TotemApplication
     void generatefolders()
     {
         for(auto& animali : TotemData->treeMap)
-        {
+        {   
             AnimalData* ptr = animali.second;
             std::string foldername = "data/collection/Cartella"+ptr->nome;
             mkdir(foldername.c_str(), 0777);
-            std::ofstream file1(foldername+"/"+ptr->nome+"_info.html");
-            std::ofstream file2(foldername+"/"+ptr->nome+"_habitat.html");
-            std::ofstream file3(foldername+"/"+ptr->nome+".jpg");
+            std::ofstream file1(foldername+"/"+ptr->nome+"_info.html",std::ios::app);
+            std::ofstream file2(foldername+"/"+ptr->nome+"_habitat.html",std::ios::app);
+            std::ofstream file3(foldername+"/"+ptr->nome+".jpg",std::ios::app);
             file1.close();file2.close();file3.close();
         }
+    }
+    void insertNewAnimale(AnimalData* data)
+    {
+        std::string content = data->nome+","+data->categoria+","+data->imageName+",0";
+        filestream::writefile("data/Lista.csv","\n"+content+",");
     }
 }
 

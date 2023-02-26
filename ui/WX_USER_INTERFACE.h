@@ -22,14 +22,16 @@
 #include <wx/panel.h>
 #include <wx/treectrl.h>
 #include <wx/filepicker.h>
-#include <wx/statbmp.h>
 #include <wx/stattext.h>
 #include <wx/html/htmlwin.h>
 #include <wx/notebook.h>
+#include <wx/statbmp.h>
+#include <wx/collpane.h>
 #include <wx/splitter.h>
 #include <wx/menu.h>
 #include <wx/frame.h>
 #include <wx/textctrl.h>
+#include <wx/dialog.h>
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -51,9 +53,8 @@ class TotemAPP : public wxFrame
 		wxFilePickerCtrl* wxFilePicker_csv;
 		wxPanel* RightPanel;
 		wxSplitterWindow* RightPanel_Splitter;
-		wxPanel* RightTopPanel;
-		wxStaticBitmap* wxBitMap_immagine;
 		wxPanel* RightBottomPanel;
+		wxPanel* wxTextTitolo_Panel;
 		wxStaticText* wxText_Titolo;
 		wxNotebook* wxNoteBookPanel;
 		wxPanel* wxPanel_Informazioni;
@@ -62,13 +63,14 @@ class TotemAPP : public wxFrame
 		wxHtmlWindow* wxHtmlWindow_Categoria;
 		wxPanel* wxPanel_Habitat;
 		wxHtmlWindow* wxHtmlWindow_Habitat_Naturale;
-		wxPanel* wxPanel_Altro;
-		wxHtmlWindow* wxHtmlWindow_Altro;
+		wxCollapsiblePane* wxPane_Bitmap;
+		wxStaticBitmap* wxBitMap_immagine;
 		wxMenuBar* MenuBar_TotemUI;
 		wxMenu* wxMenu_Program;
 		wxMenu* wxSubMenu_File;
 		wxMenu* wxSubMenu_Debug;
 		wxMenu* wxMenu_Utente;
+		wxMenu* wxMenu_AIuto;
 
 		// Virtual event handlers, override them in your derived class
 		virtual void TotemSetup( wxActivateEvent& event ) { event.Skip(); }
@@ -76,8 +78,11 @@ class TotemAPP : public wxFrame
 		virtual void btn_CollapseTree_Clicked( wxCommandEvent& event ) { event.Skip(); }
 		virtual void toggleAnimale( wxTreeEvent& event ) { event.Skip(); }
 		virtual void newfileLoaded( wxFileDirPickerEvent& event ) { event.Skip(); }
+		virtual void wxMenuItem_LoadFileEvent( wxCommandEvent& event ) { event.Skip(); }
+		virtual void wxMenuItem_GenerateEvent( wxCommandEvent& event ) { event.Skip(); }
 		virtual void EventDebugButton( wxCommandEvent& event ) { event.Skip(); }
 		virtual void MenuItem_Selected_Aggiungi( wxCommandEvent& event ) { event.Skip(); }
+		virtual void wxMenuItemAiuto_Clicked( wxCommandEvent& event ) { event.Skip(); }
 
 
 	public:
@@ -88,7 +93,7 @@ class TotemAPP : public wxFrame
 
 		void Main_SplitterOnIdle( wxIdleEvent& )
 		{
-			Main_Splitter->SetSashPosition( 214 );
+			Main_Splitter->SetSashPosition( 226 );
 			Main_Splitter->Disconnect( wxEVT_IDLE, wxIdleEventHandler( TotemAPP::Main_SplitterOnIdle ), NULL, this );
 		}
 
@@ -108,20 +113,41 @@ class AggiungiAnimale : public wxFrame
 	private:
 
 	protected:
+		wxStaticText* Aggiungi_Disclaimer;
 		wxPanel* AggiungiAnimale_Panel;
 		wxStaticText* aggiungiNome;
 		wxTextCtrl* Input_nuovoNome;
 		wxStaticText* AggiungiCategoria;
-		wxTextCtrl* input_nuovaCategoria;
-		wxStaticText* AggiungiImmagine;
-		wxFilePickerCtrl* input_nuovaImmagine;
+		wxTextCtrl* Input_nuovaCategoria;
 		wxButton* NuovoAnimaleSubmit;
+
+		// Virtual event handlers, override them in your derived class
+		virtual void NuovoAnimaleSubmitClicked( wxCommandEvent& event ) { event.Skip(); }
+
 
 	public:
 
 		AggiungiAnimale( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Finestra per aggiungere un nuovo animale"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxSize( 500,300 ), long style = wxDEFAULT_FRAME_STYLE|wxTAB_TRAVERSAL );
 
 		~AggiungiAnimale();
+
+};
+
+///////////////////////////////////////////////////////////////////////////////
+/// Class Help
+///////////////////////////////////////////////////////////////////////////////
+class Help : public wxDialog
+{
+	private:
+
+	protected:
+		wxHtmlWindow* wxHtmlWindow_Help;
+
+	public:
+
+		Help( wxWindow* parent, wxWindowID id = wxID_ANY, const wxString& title = wxT("Come funziona il programma"), const wxPoint& pos = wxDefaultPosition, const wxSize& size = wxDefaultSize, long style = wxDEFAULT_DIALOG_STYLE );
+
+		~Help();
 
 };
 

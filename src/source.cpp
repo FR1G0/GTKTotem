@@ -10,27 +10,49 @@ public:
 
 wxIMPLEMENT_APP(MyApp);
 
+class myForm : public AggiungiAnimale
+{
+	public : 
+	myForm() : AggiungiAnimale::AggiungiAnimale(NULL) {};
+	void NuovoAnimaleSubmitClicked( wxCommandEvent& event ) 
+	{ 
+		std::string 
+			nome = wxConverter::wxString_to_string(this->Input_nuovoNome->GetLineText(0)),
+			categoria = wxConverter::wxString_to_string(this->Input_nuovaCategoria->GetLineText(0));
+		TotemApplication::AnimalData * nuovo = new TotemApplication::AnimalData(nome,categoria);
+		nuovo->imageName = nome+".jpg";
+		TotemApplication::insertNewAnimale(nuovo);
+		this->Show(false);
+	}	
+};
+
+class myHelp : public Help
+{
+	private : 
+	void loadpage() {this->wxHtmlWindow_Help->LoadPage("data/help.html");}
+	public : 
+	myHelp() : Help::Help(NULL) {loadpage();}; 
+};
 
 class TotemUI : public TotemAPP
 {
 	private:
-	AggiungiAnimale* aggiungiForm = new AggiungiAnimale(NULL);
+	myForm* aggiungiForm = new myForm();
+	myHelp* HelpPage = new myHelp();
 	protected:
-	void setupTree()
-	{
-		TotemApplication::generateTree(this->wxTree_Animali,TotemApplication::TotemData);
-	}
+	void setupTree() {TotemApplication::generateTree(this->wxTree_Animali,TotemApplication::TotemData);}
 	void TotemSetup() 
 	{
 		setupTree();
 		setImage("assets/githubLogo.png");
 		TotemApplication::generatefolders();
+		this->wxHtmlWindow_Informazioni->LoadPage("data/defaultinfo.html");
 		return;
 	}
 	void EventDebugButton( wxCommandEvent& event ) 
 	{
 		setImage("data/esempio.jpg");
-		this->wxHtmlWindow_Informazioni->LoadPage("data/CartellaTigre/Tigre_info.html");
+		this->wxHtmlWindow_Informazioni->LoadPage("data/defaultinfo.html");
 		std::string content = filestream::getFileContents("assets/text/lorem.txt");
 	}
 	void newfileLoaded( wxFileDirPickerEvent& event ) 
@@ -43,23 +65,34 @@ class TotemUI : public TotemAPP
 	}
 	void toggleAnimale( wxTreeEvent& event ) 
 	{
-		//changes the title of the 
-		this->wxText_Titolo->SetLabel(
-			wxConverter::string_to_wxString(TotemApplication::TotemData->treeMap[event.GetItem()]->nome)
-		); 
-		setImage(TotemApplication::TotemData->treeMap[event.GetItem()]->getCartella());
-		this->wxHtmlWindow_Informazioni->LoadPage(TotemApplication::TotemData->treeMap[event.GetItem()]->getInfo());
+		//get the addr of the animal
+		TotemApplication::AnimalData* ref = TotemApplication::TotemData->treeMap[event.GetItem()];
+		
+		//change the layout
+		setImage(ref->getCartella());
+		this->wxText_Titolo->SetLabel( wxConverter::string_to_wxString(ref->nome) ); 
+		this->wxHtmlWindow_Informazioni->LoadPage(ref->getInfo());
+		this->wxHtmlWindow_Categoria->LoadPage(ref->getCategoria());
+		this->wxHtmlWindow_Habitat_Naturale->LoadPage(ref->getHabitat());
 	}
 	
 	void btn_ExpandTree_Clicked( wxCommandEvent& event ) { this->wxTree_Animali->ExpandAll(); }
 	void btn_CollapseTree_Clicked( wxCommandEvent& event ) { this->wxTree_Animali->CollapseAll(); }
 	
+	void wxMenuItem_LoadFileEvent( wxCommandEvent& event ) { }
+	void wxMenuItem_GenerateEvent( wxCommandEvent& event ) { TotemApplication::generatefolders(); }
+	
 	void MenuItem_Selected_Aggiungi( wxCommandEvent& event ) { aggiungiForm->Show(true); }
+	void wxMenuItemAiuto_Clicked( wxCommandEvent& event )  { this->HelpPage->Show(true);return;	}
 	public:
 	TotemUI() : TotemAPP::TotemAPP(NULL) {TotemSetup();}; //overloaded ctor
 	
 	//takes a the path of an image as (std::string) and places it inside the btiMap widget
-	void setImage(std::string image_path) {this->wxBitMap_immagine->SetBitmap(wxBitmap(image_path, wxBITMAP_TYPE_ANY ));}
+	void setImage(std::string image_path) 
+	{
+		this->wxBitMap_immagine->SetBitmap(wxBitmap(image_path, wxBITMAP_TYPE_ANY ));
+		this->wxBitMap_immagine->Fit();
+	}
 };
 
 bool MyApp::OnInit()
@@ -74,6 +107,7 @@ bool MyApp::OnInit()
 	
 	//display 
 	frame->Show( true );
+
     return true;
 }
 
