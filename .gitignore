@@ -5,7 +5,7 @@
 .vscode
 test/compiled/*
 assets/*
-data/collection/*
+**/*.jpg
 # User-specific files
 *.rsuser
 *.suo

@@ -5,7 +5,7 @@
 // PLEASE DO *NOT* EDIT THIS FILE!
 ///////////////////////////////////////////////////////////////////////////
 
-#include "WX_USER_INTERFACE.h"
+#include "WX_USER_INTERFACE_DARK.h"
 
 ///////////////////////////////////////////////////////////////////////////
 
@@ -21,6 +21,7 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	Main_Splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
 	Main_Splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( TotemAPP::Main_SplitterOnIdle ), NULL, this );
 
+	Main_Splitter->SetForegroundColour( wxColour( 255, 255, 255 ) );
 	Main_Splitter->SetBackgroundColour( wxColour( 13, 0, 41 ) );
 
 	LeftPanel = new wxPanel( Main_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
@@ -33,15 +34,15 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxBoxSizer* wxTreeControlPanel_Sizer;
 	wxTreeControlPanel_Sizer = new wxBoxSizer( wxHORIZONTAL );
 
-	btn_ExpandTree = new wxButton( wxTreeControlPanel, wxID_ANY, wxT("Espandi"), wxDefaultPosition, wxDefaultSize, 0|wxBORDER_NONE );
+	btn_ExpandTree = new wxButton( wxTreeControlPanel, wxID_ANY, wxT("Espandi"), wxDefaultPosition, wxSize( -1,20 ), 0|wxBORDER_NONE );
 	btn_ExpandTree->SetForegroundColour( wxColour( 255, 255, 255 ) );
-	btn_ExpandTree->SetBackgroundColour( wxColour( 13, 0, 41 ) );
+	btn_ExpandTree->SetBackgroundColour( wxColour( 255, 42, 0 ) );
 
 	wxTreeControlPanel_Sizer->Add( btn_ExpandTree, 1, wxALL|wxALIGN_CENTER_VERTICAL, 2 );
 
-	btn_CollapseTree = new wxButton( wxTreeControlPanel, wxID_ANY, wxT("Crolla"), wxDefaultPosition, wxDefaultSize, 0|wxBORDER_NONE );
+	btn_CollapseTree = new wxButton( wxTreeControlPanel, wxID_ANY, wxT("Crolla"), wxDefaultPosition, wxSize( -1,20 ), 0|wxBORDER_NONE );
 	btn_CollapseTree->SetForegroundColour( wxColour( 255, 255, 255 ) );
-	btn_CollapseTree->SetBackgroundColour( wxColour( 13, 0, 41 ) );
+	btn_CollapseTree->SetBackgroundColour( wxColour( 255, 42, 0 ) );
 
 	wxTreeControlPanel_Sizer->Add( btn_CollapseTree, 0, wxALL|wxALIGN_CENTER_VERTICAL, 2 );
 
@@ -102,11 +103,13 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxTextTitolo_Panel_Sizer->Fit( wxTextTitolo_Panel );
 	RightBottomPanel_Sizer->Add( wxTextTitolo_Panel, 0, wxEXPAND | wxALL, 0 );
 
-	wxNoteBookPanel = new wxNotebook( RightBottomPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
+	wxNoteBookPanel = new wxNotebook( RightBottomPanel, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), 0 );
 	wxNoteBookPanel->SetForegroundColour( wxColour( 255, 255, 255 ) );
 	wxNoteBookPanel->SetBackgroundColour( wxColour( 13, 0, 41 ) );
 
-	wxPanel_Informazioni = new wxPanel( wxNoteBookPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxPanel_Informazioni = new wxPanel( wxNoteBookPanel, wxID_ANY, wxDefaultPosition, wxSize( -1,-1 ), wxTAB_TRAVERSAL );
+	wxPanel_Informazioni->SetBackgroundColour( wxColour( 13, 0, 41 ) );
+
 	wxBoxSizer* wxBoxSizer_Note_Informazioni;
 	wxBoxSizer_Note_Informazioni = new wxBoxSizer( wxVERTICAL );
 

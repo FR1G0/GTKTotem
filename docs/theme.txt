@@ -1,0 +1,2 @@
+background-color: #0d0029
+buttons-background: #FF2A00
