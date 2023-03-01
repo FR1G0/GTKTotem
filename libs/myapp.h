@@ -47,7 +47,8 @@ namespace TotemApplication
 
         //this stores the list of animals
         std::vector<AnimalData*> vDataList;
-        //this stores the 
+
+        //this stores the map of animals
         std::map<wxTreeItemId,AnimalData*> treeMap;
         
         //Totem Data setup 
@@ -65,6 +66,12 @@ namespace TotemApplication
         {
             parsers::CSV::Document* document = new parsers::CSV::Document(filePath);
             setup(document);
+        }
+        ~DataHandler() 
+        {
+            for(auto& itr : vDataList) { delete itr; }
+            for(auto& itr : treeMap) { delete itr.second; }
+            delete this;
         }
     };
     
@@ -112,10 +119,6 @@ namespace TotemApplication
         }
     }
     DataHandler* TotemData = new DataHandler;
-    void close()
-    {
-        delete TotemData;
-    }
     void generatefolders()
     {
         for(auto& animali : TotemData->treeMap)

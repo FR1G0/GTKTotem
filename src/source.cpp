@@ -2,8 +2,12 @@
 
 class MyApp: public wxApp
 {
+protected:
+	wxFrame* TotemUI_wxFrame, *Aggiungi_wxFrame, *Help_wxFrame;
 public:
     virtual bool OnInit();
+	virtual int OnExit();
+	~MyApp() { delete TotemUI_wxFrame; delete Aggiungi_wxFrame; delete Help_wxFrame; }
 };
 
 #include "../ui/WX_USER_INTERFACE.h"
@@ -23,23 +27,22 @@ class myForm : public AggiungiAnimale
 		nuovo->imageName = nome+".jpg";
 		TotemApplication::insertNewAnimale(nuovo);
 		this->Show(false);
-	}	
+	}
 };
-
 class myHelp : public Help
 {
-	private : 
+	private: 
 	void loadpage() {this->wxHtmlWindow_Help->LoadPage("data/help.html");}
-	public : 
+	public: 
 	myHelp() : Help::Help(NULL) {loadpage();}; 
 };
 
 class TotemUI : public TotemAPP
 {
-	private:
+	protected:
 	myForm* aggiungiForm = new myForm();
 	myHelp* HelpPage = new myHelp();
-	protected:
+
 	void setupTree() {TotemApplication::generateTree(this->wxTree_Animali,TotemApplication::TotemData);}
 	void TotemSetup() 
 	{
@@ -84,6 +87,7 @@ class TotemUI : public TotemAPP
 	
 	void MenuItem_Selected_Aggiungi( wxCommandEvent& event ) { aggiungiForm->Show(true); }
 	void wxMenuItemAiuto_Clicked( wxCommandEvent& event )  { this->HelpPage->Show(true);return;	}
+	
 	public:
 	TotemUI() : TotemAPP::TotemAPP(NULL) {TotemSetup();}; //overloaded ctor
 	
@@ -93,7 +97,14 @@ class TotemUI : public TotemAPP
 		this->wxBitMap_immagine->SetBitmap(wxBitmap(image_path, wxBITMAP_TYPE_ANY ));
 		this->wxBitMap_immagine->Fit();
 	}
-	void showHelp() {HelpPage->Show(true);}
+	void showHelp() { HelpPage->Show(true); }
+	~TotemUI()
+	{
+		delete aggiungiForm;
+		delete HelpPage;
+		delete TotemApplication::TotemData;
+		delete this;
+	}
 };
 
 bool MyApp::OnInit()
@@ -101,7 +112,7 @@ bool MyApp::OnInit()
 	//declaration
     TotemUI *frame = new TotemUI();
 
-	//setup stage
+	//setup stageAggiungi_wxFrame
 	frame->SetTitle("[TOTEMUI] Progetto \"Totem Per zoo\" Rampazzo & Frigo");
 	frame->SetIcon(*(new wxIcon("ico.png")));
 	frame->CenterOnScreen(wxBOTH);
@@ -110,9 +121,17 @@ bool MyApp::OnInit()
 	frame->Show( true );
 	frame->showHelp();
 
+	//pointers
+	TotemUI_wxFrame = frame;
     return true;
 }
 
+int MyApp::OnExit()
+{
+	delete TotemUI_wxFrame;
+	delete this;
+	return 0;
+}
 
 #include "../ui/WX_USER_INTERFACE.cpp"
 

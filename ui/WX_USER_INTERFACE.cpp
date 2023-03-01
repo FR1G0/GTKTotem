@@ -12,7 +12,7 @@
 TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, const wxPoint& pos, const wxSize& size, long style ) : wxFrame( parent, id, title, pos, size, style )
 {
 	this->SetSizeHints( wxDefaultSize, wxDefaultSize );
-	this->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT ) );
+	this->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
 	this->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
 
 	wxBoxSizer* TotemAPP_BoxSizer;
@@ -21,27 +21,25 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	Main_Splitter = new wxSplitterWindow( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
 	Main_Splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( TotemAPP::Main_SplitterOnIdle ), NULL, this );
 
-	Main_Splitter->SetBackgroundColour( wxColour( 13, 0, 41 ) );
-
 	LeftPanel = new wxPanel( Main_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	LeftPanel->SetBackgroundColour( wxColour( 13, 0, 41 ) );
-
 	wxBoxSizer* LeftPanel_Sizer;
 	LeftPanel_Sizer = new wxBoxSizer( wxVERTICAL );
 
 	wxTreeControlPanel = new wxPanel( LeftPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxTreeControlPanel->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
+
 	wxBoxSizer* wxTreeControlPanel_Sizer;
 	wxTreeControlPanel_Sizer = new wxBoxSizer( wxHORIZONTAL );
 
-	btn_ExpandTree = new wxButton( wxTreeControlPanel, wxID_ANY, wxT("Espandi"), wxDefaultPosition, wxDefaultSize, 0|wxBORDER_NONE );
-	btn_ExpandTree->SetForegroundColour( wxColour( 255, 255, 255 ) );
-	btn_ExpandTree->SetBackgroundColour( wxColour( 13, 0, 41 ) );
+	btn_ExpandTree = new wxButton( wxTreeControlPanel, wxID_ANY, wxT("Espandi"), wxDefaultPosition, wxSize( -1,20 ), 0 );
+	btn_ExpandTree->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT ) );
+	btn_ExpandTree->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
 
 	wxTreeControlPanel_Sizer->Add( btn_ExpandTree, 1, wxALL|wxALIGN_CENTER_VERTICAL, 2 );
 
-	btn_CollapseTree = new wxButton( wxTreeControlPanel, wxID_ANY, wxT("Crolla"), wxDefaultPosition, wxDefaultSize, 0|wxBORDER_NONE );
-	btn_CollapseTree->SetForegroundColour( wxColour( 255, 255, 255 ) );
-	btn_CollapseTree->SetBackgroundColour( wxColour( 13, 0, 41 ) );
+	btn_CollapseTree = new wxButton( wxTreeControlPanel, wxID_ANY, wxT("Crolla"), wxDefaultPosition, wxSize( -1,20 ), 0 );
+	btn_CollapseTree->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT ) );
+	btn_CollapseTree->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
 
 	wxTreeControlPanel_Sizer->Add( btn_CollapseTree, 0, wxALL|wxALIGN_CENTER_VERTICAL, 2 );
 
@@ -49,18 +47,14 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxTreeControlPanel->SetSizer( wxTreeControlPanel_Sizer );
 	wxTreeControlPanel->Layout();
 	wxTreeControlPanel_Sizer->Fit( wxTreeControlPanel );
-	LeftPanel_Sizer->Add( wxTreeControlPanel, 0, wxEXPAND | wxALL, 2 );
+	LeftPanel_Sizer->Add( wxTreeControlPanel, 0, wxEXPAND | wxALL, 0 );
 
 	wxTree_Animali = new wxTreeCtrl( LeftPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTR_DEFAULT_STYLE|wxTR_FULL_ROW_HIGHLIGHT );
-	wxTree_Animali->SetForegroundColour( wxColour( 255, 255, 255 ) );
-	wxTree_Animali->SetBackgroundColour( wxColour( 13, 0, 41 ) );
+	wxTree_Animali->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT ) );
 
 	LeftPanel_Sizer->Add( wxTree_Animali, 1, wxALL|wxEXPAND, 0 );
 
 	wxFilePicker_csv = new wxFilePickerCtrl( LeftPanel, wxID_ANY, wxEmptyString, wxT("Selezionare un file che contiene le informazioni per gli animali"), wxT("*.*"), wxDefaultPosition, wxSize( -1,-1 ), wxFLP_DEFAULT_STYLE );
-	wxFilePicker_csv->SetForegroundColour( wxColour( 255, 255, 255 ) );
-	wxFilePicker_csv->SetBackgroundColour( wxColour( 13, 0, 41 ) );
-
 	LeftPanel_Sizer->Add( wxFilePicker_csv, 0, wxALL|wxEXPAND, 2 );
 
 
@@ -68,19 +62,13 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	LeftPanel->Layout();
 	LeftPanel_Sizer->Fit( LeftPanel );
 	RightPanel = new wxPanel( Main_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	RightPanel->SetBackgroundColour( wxColour( 13, 0, 41 ) );
-
 	wxBoxSizer* RightPanelSizer;
 	RightPanelSizer = new wxBoxSizer( wxHORIZONTAL );
 
 	RightPanel_Splitter = new wxSplitterWindow( RightPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxSP_3D|wxSP_LIVE_UPDATE );
 	RightPanel_Splitter->Connect( wxEVT_IDLE, wxIdleEventHandler( TotemAPP::RightPanel_SplitterOnIdle ), NULL, this );
 
-	RightPanel_Splitter->SetBackgroundColour( wxColour( 13, 0, 41 ) );
-
 	RightBottomPanel = new wxPanel( RightPanel_Splitter, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
-	RightBottomPanel->SetBackgroundColour( wxColour( 13, 0, 41 ) );
-
 	wxBoxSizer* RightBottomPanel_Sizer;
 	RightBottomPanel_Sizer = new wxBoxSizer( wxVERTICAL );
 
@@ -91,21 +79,18 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxText_Titolo = new wxStaticText( wxTextTitolo_Panel, wxID_ANY, wxT("NOME ANIMALE"), wxDefaultPosition, wxDefaultSize, 0 );
 	wxText_Titolo->Wrap( -1 );
 	wxText_Titolo->SetFont( wxFont( 20, wxFONTFAMILY_ROMAN, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_BOLD, false, wxT("Sans") ) );
-	wxText_Titolo->SetForegroundColour( wxColour( 255, 255, 255 ) );
-	wxText_Titolo->SetBackgroundColour( wxColour( 13, 0, 41 ) );
+	wxText_Titolo->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT ) );
+	wxText_Titolo->SetBackgroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOW ) );
 
-	wxTextTitolo_Panel_Sizer->Add( wxText_Titolo, 0, wxALL|wxALIGN_CENTER_HORIZONTAL, 0 );
+	wxTextTitolo_Panel_Sizer->Add( wxText_Titolo, 0, wxALL|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 0 );
 
 
 	wxTextTitolo_Panel->SetSizer( wxTextTitolo_Panel_Sizer );
 	wxTextTitolo_Panel->Layout();
 	wxTextTitolo_Panel_Sizer->Fit( wxTextTitolo_Panel );
-	RightBottomPanel_Sizer->Add( wxTextTitolo_Panel, 0, wxEXPAND | wxALL, 0 );
+	RightBottomPanel_Sizer->Add( wxTextTitolo_Panel, 0, wxEXPAND | wxALL, 2 );
 
 	wxNoteBookPanel = new wxNotebook( RightBottomPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, 0 );
-	wxNoteBookPanel->SetForegroundColour( wxColour( 255, 255, 255 ) );
-	wxNoteBookPanel->SetBackgroundColour( wxColour( 13, 0, 41 ) );
-
 	wxPanel_Informazioni = new wxPanel( wxNoteBookPanel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* wxBoxSizer_Note_Informazioni;
 	wxBoxSizer_Note_Informazioni = new wxBoxSizer( wxVERTICAL );
@@ -156,7 +141,6 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	wxPane_Bitmap->Collapse( false );
 
 	wxPane_Bitmap->SetForegroundColour( wxSystemSettings::GetColour( wxSYS_COLOUR_WINDOWTEXT ) );
-	wxPane_Bitmap->SetBackgroundColour( wxColour( 13, 0, 41 ) );
 
 	wxBoxSizer* wxBitMap_immagine_Sizer;
 	wxBitMap_immagine_Sizer = new wxBoxSizer( wxVERTICAL );
@@ -182,9 +166,6 @@ TotemAPP::TotemAPP( wxWindow* parent, wxWindowID id, const wxString& title, cons
 	this->SetSizer( TotemAPP_BoxSizer );
 	this->Layout();
 	MenuBar_TotemUI = new wxMenuBar( 0 );
-	MenuBar_TotemUI->SetForegroundColour( wxColour( 255, 255, 255 ) );
-	MenuBar_TotemUI->SetBackgroundColour( wxColour( 13, 0, 41 ) );
-
 	wxMenu_Program = new wxMenu();
 	wxSubMenu_File = new wxMenu();
 	wxMenuItem* wxSubMenu_FileItem = new wxMenuItem( wxMenu_Program, wxID_ANY, wxT("File"), wxEmptyString, wxITEM_NORMAL, wxSubMenu_File );
@@ -262,7 +243,7 @@ AggiungiAnimale::AggiungiAnimale( wxWindow* parent, wxWindowID id, const wxStrin
 
 	Aggiungi_Disclaimer = new wxStaticText( this, wxID_ANY, wxT("l'animale verrà inserito all'interno del file .csv"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTER_HORIZONTAL );
 	Aggiungi_Disclaimer->Wrap( -1 );
-	AggiungiAnimale_Sizer->Add( Aggiungi_Disclaimer, 0, wxALL|wxEXPAND, 5 );
+	AggiungiAnimale_Sizer->Add( Aggiungi_Disclaimer, 0, wxALL|wxEXPAND, 0 );
 
 	AggiungiAnimale_Panel = new wxPanel( this, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
 	wxBoxSizer* AggiungiAnimalePanel_Sizer;
@@ -289,7 +270,7 @@ AggiungiAnimale::AggiungiAnimale( wxWindow* parent, wxWindowID id, const wxStrin
 	AggiungiAnimale_Panel->SetSizer( AggiungiAnimalePanel_Sizer );
 	AggiungiAnimale_Panel->Layout();
 	AggiungiAnimalePanel_Sizer->Fit( AggiungiAnimale_Panel );
-	AggiungiAnimale_Sizer->Add( AggiungiAnimale_Panel, 1, wxEXPAND | wxALL, 5 );
+	AggiungiAnimale_Sizer->Add( AggiungiAnimale_Panel, 1, wxEXPAND | wxALL, 0 );
 
 
 	this->SetSizer( AggiungiAnimale_Sizer );
