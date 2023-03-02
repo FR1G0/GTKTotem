@@ -119,10 +119,13 @@ class AggiungiAnimale : public wxFrame
 		wxTextCtrl* Input_nuovoNome;
 		wxStaticText* AggiungiCategoria;
 		wxTextCtrl* Input_nuovaCategoria;
+		wxPanel* m_panel10;
 		wxButton* NuovoAnimaleSubmit;
+		wxButton* Cancel;
 
 		// Virtual event handlers, override them in your derived class
 		virtual void NuovoAnimaleSubmitClicked( wxCommandEvent& event ) { event.Skip(); }
+		virtual void Aggiungi_btn_cancelClicked( wxCommandEvent& event ) { event.Skip(); }
 
 
 	public:

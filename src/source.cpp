@@ -28,6 +28,7 @@ class myForm : public AggiungiAnimale
 		TotemApplication::insertNewAnimale(nuovo);
 		this->Show(false);
 	}
+	void Aggiungi_btn_cancelClicked( wxCommandEvent& event ) { this->Show(false); }
 };
 class myHelp : public Help
 {
@@ -69,7 +70,7 @@ class TotemUI : public TotemAPP
 	void toggleAnimale( wxTreeEvent& event ) 
 	{
 		//get the addr of the animal
-		TotemApplication::AnimalData* ref = TotemApplication::TotemData->treeMap[event.GetItem()];
+		TotemApplication::AnimalData* ref = TotemApplication::TotemData->treeMap[event.GetItem()]->data;
 		
 		//change the layout
 		setImage(ref->getCartella());

@@ -263,8 +263,21 @@ AggiungiAnimale::AggiungiAnimale( wxWindow* parent, wxWindowID id, const wxStrin
 	Input_nuovaCategoria = new wxTextCtrl( AggiungiAnimale_Panel, wxID_ANY, wxEmptyString, wxDefaultPosition, wxDefaultSize, 0 );
 	AggiungiAnimalePanel_Sizer->Add( Input_nuovaCategoria, 0, wxALL|wxEXPAND, 5 );
 
-	NuovoAnimaleSubmit = new wxButton( AggiungiAnimale_Panel, wxID_ANY, wxT("Conferma"), wxDefaultPosition, wxDefaultSize, 0 );
-	AggiungiAnimalePanel_Sizer->Add( NuovoAnimaleSubmit, 0, wxALL|wxALIGN_RIGHT, 5 );
+	m_panel10 = new wxPanel( AggiungiAnimale_Panel, wxID_ANY, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL );
+	wxBoxSizer* bSizer14;
+	bSizer14 = new wxBoxSizer( wxHORIZONTAL );
+
+	NuovoAnimaleSubmit = new wxButton( m_panel10, wxID_ANY, wxT("Conferma"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer14->Add( NuovoAnimaleSubmit, 0, wxALL|wxALIGN_RIGHT|wxALIGN_BOTTOM, 5 );
+
+	Cancel = new wxButton( m_panel10, wxID_ANY, wxT("Cancella"), wxDefaultPosition, wxDefaultSize, 0 );
+	bSizer14->Add( Cancel, 0, wxALL|wxALIGN_BOTTOM, 5 );
+
+
+	m_panel10->SetSizer( bSizer14 );
+	m_panel10->Layout();
+	bSizer14->Fit( m_panel10 );
+	AggiungiAnimalePanel_Sizer->Add( m_panel10, 1, wxEXPAND|wxALL|wxALIGN_RIGHT, 5 );
 
 
 	AggiungiAnimale_Panel->SetSizer( AggiungiAnimalePanel_Sizer );
@@ -280,12 +293,14 @@ AggiungiAnimale::AggiungiAnimale( wxWindow* parent, wxWindowID id, const wxStrin
 
 	// Connect Events
 	NuovoAnimaleSubmit->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AggiungiAnimale::NuovoAnimaleSubmitClicked ), NULL, this );
+	Cancel->Connect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AggiungiAnimale::Aggiungi_btn_cancelClicked ), NULL, this );
 }
 
 AggiungiAnimale::~AggiungiAnimale()
 {
 	// Disconnect Events
 	NuovoAnimaleSubmit->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AggiungiAnimale::NuovoAnimaleSubmitClicked ), NULL, this );
+	Cancel->Disconnect( wxEVT_COMMAND_BUTTON_CLICKED, wxCommandEventHandler( AggiungiAnimale::Aggiungi_btn_cancelClicked ), NULL, this );
 
 }
 
