@@ -1,5 +1,7 @@
 #include "wxincludes.hpp"
 
+
+
 class MyApp: public wxApp
 {
 protected:
@@ -47,6 +49,9 @@ class TotemUI : public TotemAPP
 	void setupTree() {TotemApplication::generateTree(this->wxTree_Animali,TotemApplication::TotemData);}
 	void TotemSetup() 
 	{
+		//WXSUPRESS_SIZER_FLAGS_CHECK	wxSizerFlags::DisabledConsistencyChecks()
+		
+		wxInitAllImageHandlers();
 		setupTree();
 		setImage("assets/githubLogo.png");
 		TotemApplication::generatefolders();
@@ -95,8 +100,10 @@ class TotemUI : public TotemAPP
 	//takes a the path of an image as (std::string) and places it inside the btiMap widget
 	void setImage(std::string image_path) 
 	{
-		this->wxBitMap_immagine->SetBitmap(wxBitmap(image_path, wxBITMAP_TYPE_ANY ));
+		wxBitmap* imageobj = new wxBitmap(image_path, wxBITMAP_TYPE_ANY );
+		this->wxBitMap_immagine->SetBitmap(*imageobj);
 		this->wxBitMap_immagine->Fit();
+		delete imageobj;
 	}
 	void showHelp() { HelpPage->Show(true); }
 	~TotemUI()
