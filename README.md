@@ -1,5 +1,5 @@
 # TotemUI
-### Progetto scuola Rampazzo & Frigo 
+### Progetto scolastico @ 2023 Frigo 
 L'idea è quella di creare un'applicazione che riesca a imitare un totem per zoo, nel nostro caso
 abbiamo creato un'interfaccia grafica capace di visualizzare una lista degli animali che rispetta 
 la gerarchia (vertebrati,invertebrati,mammiferi,molluschi ecc...)
